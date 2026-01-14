@@ -1,13 +1,23 @@
-import { useState } from 'react'
-import { Button } from './components/ui/button'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { createRouter, RouterProvider } from '@tanstack/react-router'
+import { AuthProvider } from './contexts/AuthContext'
+import { routeTree } from './route-tree.gen'
+
+const queryClient = new QueryClient()
+
+const router = createRouter({ routeTree })
+declare module '@tanstack/react-router' {
+	interface Register {
+		router: typeof router
+	}
+}
 
 export function App() {
-	const [count, setCount] = useState(0)
-
 	return (
-		<div className="flex h-screen flex-col items-center justify-center">
-			<h1 className="text-3xl text-red-500">Proz Love</h1>
-			<Button onClick={() => setCount(count + 1)}>Count {count}</Button>
-		</div>
+		<QueryClientProvider client={queryClient}>
+			<AuthProvider>
+				<RouterProvider router={router} />
+			</AuthProvider>
+		</QueryClientProvider>
 	)
 }
