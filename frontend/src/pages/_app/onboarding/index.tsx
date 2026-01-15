@@ -1,15 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { ChevronDownIcon, Flame, Heart } from 'lucide-react'
+import { Flame, Heart } from 'lucide-react'
 import { useState } from 'react'
-import { Controller, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Button } from '@/components/ui/button'
-import { Calendar } from '@/components/ui/calendar'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { StageOneForm } from './-form/StageOneForm'
+import { StageTwoForm } from './-form/StageTwoForm'
 
 export const Route = createFileRoute('/_app/onboarding/')({
 	component: Onboarding,
@@ -23,8 +20,11 @@ export const Route = createFileRoute('/_app/onboarding/')({
 })
 
 const onboardingFormSchema = z.object({
-	name: z.string().min(2, {
+	name: z.string().trim().min(2, {
 		message: 'O nome deve ter pelo menos 2 caracteres.',
+	}),
+	bio: z.string().min(10, {
+		message: 'A biografia deve ter pelo menos 10 caracteres.',
 	}),
 	birthday: z.date({
 		message: 'Selecione uma data de nascimento valida.',
@@ -37,17 +37,13 @@ const onboardingFormSchema = z.object({
 export type OnboardingFormInputs = z.infer<typeof onboardingFormSchema>
 
 function Onboarding() {
-	const [open, setOpen] = useState<boolean>(false)
+	const [stage, setStage] = useState<number>(1)
 
-	const {
-		register,
-		handleSubmit,
-		control,
-		formState: { errors },
-	} = useForm<OnboardingFormInputs>({
+	const form = useForm<OnboardingFormInputs>({
 		resolver: zodResolver(onboardingFormSchema),
 		defaultValues: {
 			name: undefined,
+			bio: undefined,
 			birthday: undefined,
 			gender: undefined,
 		},
@@ -55,6 +51,13 @@ function Onboarding() {
 
 	function onSubmit(values: OnboardingFormInputs) {
 		console.log(values)
+	}
+
+	function handleNextStage() {
+		const { name, birthday, gender } = form.getValues()
+		if (name && birthday && gender) {
+			setStage(stage + 1)
+		}
 	}
 
 	return (
@@ -78,92 +81,35 @@ function Onboarding() {
 
 						<div className="flex items-center gap-2">
 							<div className="h-1.5 flex-1 rounded-full bg-linear-to-r from-rose-500 to-orange-400" />
-							<div className="h-1.5 flex-1 rounded-full bg-gray-200" />
-							<div className="h-1.5 flex-1 rounded-full bg-gray-200" />
+							<div
+								className={`h-1.5 flex-1 rounded-full ${
+									stage === 2 ? 'bg-linear-to-r from-orange-400 to-rose-500' : 'bg-gray-200'
+								}`}
+							/>
 						</div>
 
-						<form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-							<div className="space-y-2">
-								<Label htmlFor="name" className="font-semibold text-gray-700 text-sm">
-									Como você se chama?
-								</Label>
+						<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+							{stage === 1 && <StageOneForm form={form} />}
+							{stage === 2 && <StageTwoForm form={form} />}
 
-								<Input id="name" placeholder="Seu primeiro nome" {...register('name')} />
-								{errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
-							</div>
-
-							<div className="space-y-2">
-								<Label htmlFor="birthday" className="font-semibold text-gray-700 text-sm">
-									Qual sua data de nascimento?
-								</Label>
-								<Controller
-									control={control}
-									name="birthday"
-									render={({ field }) => (
-										<Popover open={open} onOpenChange={setOpen}>
-											<PopoverTrigger asChild>
-												<Button variant="outline" id="date" className="w-48 justify-between font-normal">
-													{field.value ? field.value.toLocaleDateString() : 'Select date'}
-													<ChevronDownIcon />
-												</Button>
-											</PopoverTrigger>
-											<PopoverContent className="w-auto overflow-hidden p-0" align="start">
-												<Calendar
-													mode="single"
-													selected={field.value}
-													captionLayout="dropdown"
-													onSelect={(date) => {
-														field.onChange(date)
-														setOpen(false)
-													}}
-												/>
-											</PopoverContent>
-										</Popover>
-									)}
-								/>
-
-								{errors.birthday && <p className="text-red-500 text-sm">{errors.birthday.message}</p>}
-							</div>
-
-							<div className="space-y-2">
-								<Label htmlFor="gender" className="font-semibold text-gray-700 text-sm">
-									Eu sou...
-								</Label>
-								<Controller
-									control={control}
-									name="gender"
-									render={({ field }) => (
-										<Select value={field.value} onValueChange={field.onChange}>
-											<SelectTrigger id="gender">
-												<SelectValue placeholder="Selecione seu gênero" />
-											</SelectTrigger>
-											<SelectContent className="rounded-xl">
-												<SelectItem value="homem" className="py-3">
-													Homem
-												</SelectItem>
-												<SelectItem value="mulher" className="py-3">
-													Mulher
-												</SelectItem>
-												<SelectItem value="nao-binario" className="py-3" disabled>
-													Não-binário
-												</SelectItem>
-												<SelectItem value="outro" className="py-3" disabled>
-													Outro
-												</SelectItem>
-											</SelectContent>
-										</Select>
-									)}
-								/>
-								{errors.gender && <p className="text-red-500 text-sm">{errors.gender.message}</p>}
-							</div>
-
-							<Button
-								type="submit"
-								variant="default"
-								className="h-12 w-full bg-linear-to-r from-rose-500 via-pink-500 to-orange-400 font-bold text-white hover:from-rose-600 hover:via-pink-600 hover:to-orange-500"
-							>
-								Continuar
-							</Button>
+							{stage === 2 ? (
+								<Button
+									type="submit"
+									variant="default"
+									className="h-12 w-full bg-linear-to-r from-rose-500 via-pink-500 to-orange-400 font-bold text-white hover:from-rose-600 hover:via-pink-600 hover:to-orange-500"
+								>
+									Finalizar Perfil
+								</Button>
+							) : (
+								<Button
+									type="submit"
+									onClick={handleNextStage}
+									variant="default"
+									className="h-12 w-full bg-linear-to-r from-rose-500 via-pink-500 to-orange-400 font-bold text-white hover:from-rose-600 hover:via-pink-600 hover:to-orange-500"
+								>
+									Continuar
+								</Button>
+							)}
 						</form>
 
 						<div className="flex justify-center">
