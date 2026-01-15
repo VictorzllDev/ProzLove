@@ -19,7 +19,7 @@ function AuthLayout() {
 			<div className="flex flex-col gap-4 p-6 md:p-10">
 				<div className="flex justify-center gap-2 md:justify-start">
 					<Link to="/" className="flex items-center gap-2 font-medium">
-						<div className="flex size-6 items-center justify-center rounded-md text-primary-foreground">
+						<div className="flex size-7 items-center justify-center rounded-md text-primary-foreground">
 							<img src="/logo.svg" alt="Logo" className="drop-shadow-sm" />
 						</div>
 						Proz Love

@@ -13,6 +13,7 @@ import { Route as AuthLayoutRouteImport } from './pages/_auth/_layout'
 import { Route as AppLayoutRouteImport } from './pages/_app/_layout'
 import { Route as AuthSignUpRouteImport } from './pages/_auth/sign-up'
 import { Route as AuthSignInRouteImport } from './pages/_auth/sign-in'
+import { Route as AppOnboardingIndexRouteImport } from './pages/_app/onboarding/index'
 import { Route as AppFeedIndexRouteImport } from './pages/_app/_feed/index'
 
 const AuthLayoutRoute = AuthLayoutRouteImport.update({
@@ -33,6 +34,11 @@ const AuthSignInRoute = AuthSignInRouteImport.update({
   path: '/sign-in',
   getParentRoute: () => AuthLayoutRoute,
 } as any)
+const AppOnboardingIndexRoute = AppOnboardingIndexRouteImport.update({
+  id: '/onboarding/',
+  path: '/onboarding/',
+  getParentRoute: () => AppLayoutRoute,
+} as any)
 const AppFeedIndexRoute = AppFeedIndexRouteImport.update({
   id: '/_feed/',
   path: '/',
@@ -43,11 +49,13 @@ export interface FileRoutesByFullPath {
   '/sign-in': typeof AuthSignInRoute
   '/sign-up': typeof AuthSignUpRoute
   '/': typeof AppFeedIndexRoute
+  '/onboarding': typeof AppOnboardingIndexRoute
 }
 export interface FileRoutesByTo {
   '/sign-in': typeof AuthSignInRoute
   '/sign-up': typeof AuthSignUpRoute
   '/': typeof AppFeedIndexRoute
+  '/onboarding': typeof AppOnboardingIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -56,12 +64,13 @@ export interface FileRoutesById {
   '/_auth/sign-in': typeof AuthSignInRoute
   '/_auth/sign-up': typeof AuthSignUpRoute
   '/_app/_feed/': typeof AppFeedIndexRoute
+  '/_app/onboarding/': typeof AppOnboardingIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/sign-in' | '/sign-up' | '/'
+  fullPaths: '/sign-in' | '/sign-up' | '/' | '/onboarding'
   fileRoutesByTo: FileRoutesByTo
-  to: '/sign-in' | '/sign-up' | '/'
+  to: '/sign-in' | '/sign-up' | '/' | '/onboarding'
   id:
     | '__root__'
     | '/_app'
@@ -69,6 +78,7 @@ export interface FileRouteTypes {
     | '/_auth/sign-in'
     | '/_auth/sign-up'
     | '/_app/_feed/'
+    | '/_app/onboarding/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -106,6 +116,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthSignInRouteImport
       parentRoute: typeof AuthLayoutRoute
     }
+    '/_app/onboarding/': {
+      id: '/_app/onboarding/'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof AppOnboardingIndexRouteImport
+      parentRoute: typeof AppLayoutRoute
+    }
     '/_app/_feed/': {
       id: '/_app/_feed/'
       path: '/'
@@ -118,10 +135,12 @@ declare module '@tanstack/react-router' {
 
 interface AppLayoutRouteChildren {
   AppFeedIndexRoute: typeof AppFeedIndexRoute
+  AppOnboardingIndexRoute: typeof AppOnboardingIndexRoute
 }
 
 const AppLayoutRouteChildren: AppLayoutRouteChildren = {
   AppFeedIndexRoute: AppFeedIndexRoute,
+  AppOnboardingIndexRoute: AppOnboardingIndexRoute,
 }
 
 const AppLayoutRouteWithChildren = AppLayoutRoute._addFileChildren(
