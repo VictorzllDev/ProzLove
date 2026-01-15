@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button'
 import { StageOneForm } from './-form/StageOneForm'
 import { StageTwoForm } from './-form/StageTwoForm'
 
-export const Route = createFileRoute('/_app/onboarding/')({
+export const Route = createFileRoute('/_private/onboarding/')({
 	component: Onboarding,
 	head: () => ({
 		meta: [

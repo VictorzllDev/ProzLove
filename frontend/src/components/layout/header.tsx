@@ -1,0 +1,41 @@
+import { useLocation } from '@tanstack/react-router'
+import { Bell, Settings } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { tabs } from './bottom-nav'
+
+type TabType = 'feed' | 'meets' | 'chat' | 'profile'
+const tabTitles: Record<TabType, string> = {
+	feed: 'Descobrir',
+	meets: 'Meus Meets',
+	chat: 'Conversas',
+	profile: 'Perfil',
+}
+
+export function Header() {
+	const location = useLocation()
+	const currentPath = location.pathname
+	const activeTab = (tabs.find((tab) => tab.path === currentPath)?.id as TabType) || 'feed'
+
+	return (
+		<header className="sticky top-0 z-40 border-border border-b bg-background/80 backdrop-blur-lg">
+			<div className="mx-auto flex h-14 max-w-md items-center justify-between px-4">
+				<div className="flex items-center gap-2">
+					<div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-lg">
+						<img src="/logo.svg" alt="Logo" className="h-full w-full" />
+					</div>
+					<span className="font-semibold text-lg">{tabTitles[activeTab]}</span>
+				</div>
+
+				<div className="flex items-center gap-1">
+					<Button variant="ghost" size="icon" className="relative">
+						<Bell className="h-5 w-5" />
+						<span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-destructive" />
+					</Button>
+					<Button variant="ghost" size="icon">
+						<Settings className="h-5 w-5" />
+					</Button>
+				</div>
+			</div>
+		</header>
+	)
+}

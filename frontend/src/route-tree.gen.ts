@@ -9,19 +9,23 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './pages/__root'
+import { Route as PrivateLayoutRouteImport } from './pages/_private/_layout'
 import { Route as AuthLayoutRouteImport } from './pages/_auth/_layout'
-import { Route as AppLayoutRouteImport } from './pages/_app/_layout'
 import { Route as AuthSignUpRouteImport } from './pages/_auth/sign-up'
 import { Route as AuthSignInRouteImport } from './pages/_auth/sign-in'
-import { Route as AppOnboardingIndexRouteImport } from './pages/_app/onboarding/index'
-import { Route as AppFeedIndexRouteImport } from './pages/_app/_feed/index'
+import { Route as PrivateAppLayoutRouteImport } from './pages/_private/_app/_layout'
+import { Route as PrivateOnboardingIndexRouteImport } from './pages/_private/onboarding/index'
+import { Route as PrivateAppProfileIndexRouteImport } from './pages/_private/_app/profile/index'
+import { Route as PrivateAppMeetsIndexRouteImport } from './pages/_private/_app/meets/index'
+import { Route as PrivateAppChatIndexRouteImport } from './pages/_private/_app/chat/index'
+import { Route as PrivateAppFeedIndexRouteImport } from './pages/_private/_app/_feed/index'
 
-const AuthLayoutRoute = AuthLayoutRouteImport.update({
-  id: '/_auth',
+const PrivateLayoutRoute = PrivateLayoutRouteImport.update({
+  id: '/_private',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AppLayoutRoute = AppLayoutRouteImport.update({
-  id: '/_app',
+const AuthLayoutRoute = AuthLayoutRouteImport.update({
+  id: '/_auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthSignUpRoute = AuthSignUpRouteImport.update({
@@ -34,72 +38,119 @@ const AuthSignInRoute = AuthSignInRouteImport.update({
   path: '/sign-in',
   getParentRoute: () => AuthLayoutRoute,
 } as any)
-const AppOnboardingIndexRoute = AppOnboardingIndexRouteImport.update({
+const PrivateAppLayoutRoute = PrivateAppLayoutRouteImport.update({
+  id: '/_app',
+  getParentRoute: () => PrivateLayoutRoute,
+} as any)
+const PrivateOnboardingIndexRoute = PrivateOnboardingIndexRouteImport.update({
   id: '/onboarding/',
   path: '/onboarding/',
-  getParentRoute: () => AppLayoutRoute,
+  getParentRoute: () => PrivateLayoutRoute,
 } as any)
-const AppFeedIndexRoute = AppFeedIndexRouteImport.update({
+const PrivateAppProfileIndexRoute = PrivateAppProfileIndexRouteImport.update({
+  id: '/profile/',
+  path: '/profile/',
+  getParentRoute: () => PrivateAppLayoutRoute,
+} as any)
+const PrivateAppMeetsIndexRoute = PrivateAppMeetsIndexRouteImport.update({
+  id: '/meets/',
+  path: '/meets/',
+  getParentRoute: () => PrivateAppLayoutRoute,
+} as any)
+const PrivateAppChatIndexRoute = PrivateAppChatIndexRouteImport.update({
+  id: '/chat/',
+  path: '/chat/',
+  getParentRoute: () => PrivateAppLayoutRoute,
+} as any)
+const PrivateAppFeedIndexRoute = PrivateAppFeedIndexRouteImport.update({
   id: '/_feed/',
   path: '/',
-  getParentRoute: () => AppLayoutRoute,
+  getParentRoute: () => PrivateAppLayoutRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/sign-in': typeof AuthSignInRoute
   '/sign-up': typeof AuthSignUpRoute
-  '/': typeof AppFeedIndexRoute
-  '/onboarding': typeof AppOnboardingIndexRoute
+  '/onboarding': typeof PrivateOnboardingIndexRoute
+  '/': typeof PrivateAppFeedIndexRoute
+  '/chat': typeof PrivateAppChatIndexRoute
+  '/meets': typeof PrivateAppMeetsIndexRoute
+  '/profile': typeof PrivateAppProfileIndexRoute
 }
 export interface FileRoutesByTo {
   '/sign-in': typeof AuthSignInRoute
   '/sign-up': typeof AuthSignUpRoute
-  '/': typeof AppFeedIndexRoute
-  '/onboarding': typeof AppOnboardingIndexRoute
+  '/onboarding': typeof PrivateOnboardingIndexRoute
+  '/': typeof PrivateAppFeedIndexRoute
+  '/chat': typeof PrivateAppChatIndexRoute
+  '/meets': typeof PrivateAppMeetsIndexRoute
+  '/profile': typeof PrivateAppProfileIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/_app': typeof AppLayoutRouteWithChildren
   '/_auth': typeof AuthLayoutRouteWithChildren
+  '/_private': typeof PrivateLayoutRouteWithChildren
+  '/_private/_app': typeof PrivateAppLayoutRouteWithChildren
   '/_auth/sign-in': typeof AuthSignInRoute
   '/_auth/sign-up': typeof AuthSignUpRoute
-  '/_app/_feed/': typeof AppFeedIndexRoute
-  '/_app/onboarding/': typeof AppOnboardingIndexRoute
+  '/_private/onboarding/': typeof PrivateOnboardingIndexRoute
+  '/_private/_app/_feed/': typeof PrivateAppFeedIndexRoute
+  '/_private/_app/chat/': typeof PrivateAppChatIndexRoute
+  '/_private/_app/meets/': typeof PrivateAppMeetsIndexRoute
+  '/_private/_app/profile/': typeof PrivateAppProfileIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/sign-in' | '/sign-up' | '/' | '/onboarding'
+  fullPaths:
+    | '/sign-in'
+    | '/sign-up'
+    | '/onboarding'
+    | '/'
+    | '/chat'
+    | '/meets'
+    | '/profile'
   fileRoutesByTo: FileRoutesByTo
-  to: '/sign-in' | '/sign-up' | '/' | '/onboarding'
+  to:
+    | '/sign-in'
+    | '/sign-up'
+    | '/onboarding'
+    | '/'
+    | '/chat'
+    | '/meets'
+    | '/profile'
   id:
     | '__root__'
-    | '/_app'
     | '/_auth'
+    | '/_private'
+    | '/_private/_app'
     | '/_auth/sign-in'
     | '/_auth/sign-up'
-    | '/_app/_feed/'
-    | '/_app/onboarding/'
+    | '/_private/onboarding/'
+    | '/_private/_app/_feed/'
+    | '/_private/_app/chat/'
+    | '/_private/_app/meets/'
+    | '/_private/_app/profile/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  AppLayoutRoute: typeof AppLayoutRouteWithChildren
   AuthLayoutRoute: typeof AuthLayoutRouteWithChildren
+  PrivateLayoutRoute: typeof PrivateLayoutRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/_private': {
+      id: '/_private'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof PrivateLayoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_auth': {
       id: '/_auth'
       path: ''
       fullPath: ''
       preLoaderRoute: typeof AuthLayoutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_app': {
-      id: '/_app'
-      path: ''
-      fullPath: ''
-      preLoaderRoute: typeof AppLayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_auth/sign-up': {
@@ -116,36 +167,50 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthSignInRouteImport
       parentRoute: typeof AuthLayoutRoute
     }
-    '/_app/onboarding/': {
-      id: '/_app/onboarding/'
+    '/_private/_app': {
+      id: '/_private/_app'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof PrivateAppLayoutRouteImport
+      parentRoute: typeof PrivateLayoutRoute
+    }
+    '/_private/onboarding/': {
+      id: '/_private/onboarding/'
       path: '/onboarding'
       fullPath: '/onboarding'
-      preLoaderRoute: typeof AppOnboardingIndexRouteImport
-      parentRoute: typeof AppLayoutRoute
+      preLoaderRoute: typeof PrivateOnboardingIndexRouteImport
+      parentRoute: typeof PrivateLayoutRoute
     }
-    '/_app/_feed/': {
-      id: '/_app/_feed/'
+    '/_private/_app/profile/': {
+      id: '/_private/_app/profile/'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof PrivateAppProfileIndexRouteImport
+      parentRoute: typeof PrivateAppLayoutRoute
+    }
+    '/_private/_app/meets/': {
+      id: '/_private/_app/meets/'
+      path: '/meets'
+      fullPath: '/meets'
+      preLoaderRoute: typeof PrivateAppMeetsIndexRouteImport
+      parentRoute: typeof PrivateAppLayoutRoute
+    }
+    '/_private/_app/chat/': {
+      id: '/_private/_app/chat/'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof PrivateAppChatIndexRouteImport
+      parentRoute: typeof PrivateAppLayoutRoute
+    }
+    '/_private/_app/_feed/': {
+      id: '/_private/_app/_feed/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof AppFeedIndexRouteImport
-      parentRoute: typeof AppLayoutRoute
+      preLoaderRoute: typeof PrivateAppFeedIndexRouteImport
+      parentRoute: typeof PrivateAppLayoutRoute
     }
   }
 }
-
-interface AppLayoutRouteChildren {
-  AppFeedIndexRoute: typeof AppFeedIndexRoute
-  AppOnboardingIndexRoute: typeof AppOnboardingIndexRoute
-}
-
-const AppLayoutRouteChildren: AppLayoutRouteChildren = {
-  AppFeedIndexRoute: AppFeedIndexRoute,
-  AppOnboardingIndexRoute: AppOnboardingIndexRoute,
-}
-
-const AppLayoutRouteWithChildren = AppLayoutRoute._addFileChildren(
-  AppLayoutRouteChildren,
-)
 
 interface AuthLayoutRouteChildren {
   AuthSignInRoute: typeof AuthSignInRoute
@@ -161,9 +226,40 @@ const AuthLayoutRouteWithChildren = AuthLayoutRoute._addFileChildren(
   AuthLayoutRouteChildren,
 )
 
+interface PrivateAppLayoutRouteChildren {
+  PrivateAppFeedIndexRoute: typeof PrivateAppFeedIndexRoute
+  PrivateAppChatIndexRoute: typeof PrivateAppChatIndexRoute
+  PrivateAppMeetsIndexRoute: typeof PrivateAppMeetsIndexRoute
+  PrivateAppProfileIndexRoute: typeof PrivateAppProfileIndexRoute
+}
+
+const PrivateAppLayoutRouteChildren: PrivateAppLayoutRouteChildren = {
+  PrivateAppFeedIndexRoute: PrivateAppFeedIndexRoute,
+  PrivateAppChatIndexRoute: PrivateAppChatIndexRoute,
+  PrivateAppMeetsIndexRoute: PrivateAppMeetsIndexRoute,
+  PrivateAppProfileIndexRoute: PrivateAppProfileIndexRoute,
+}
+
+const PrivateAppLayoutRouteWithChildren =
+  PrivateAppLayoutRoute._addFileChildren(PrivateAppLayoutRouteChildren)
+
+interface PrivateLayoutRouteChildren {
+  PrivateAppLayoutRoute: typeof PrivateAppLayoutRouteWithChildren
+  PrivateOnboardingIndexRoute: typeof PrivateOnboardingIndexRoute
+}
+
+const PrivateLayoutRouteChildren: PrivateLayoutRouteChildren = {
+  PrivateAppLayoutRoute: PrivateAppLayoutRouteWithChildren,
+  PrivateOnboardingIndexRoute: PrivateOnboardingIndexRoute,
+}
+
+const PrivateLayoutRouteWithChildren = PrivateLayoutRoute._addFileChildren(
+  PrivateLayoutRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
-  AppLayoutRoute: AppLayoutRouteWithChildren,
   AuthLayoutRoute: AuthLayoutRouteWithChildren,
+  PrivateLayoutRoute: PrivateLayoutRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

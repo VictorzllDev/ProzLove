@@ -2,11 +2,11 @@ import { createFileRoute, Navigate, Outlet } from '@tanstack/react-router'
 import { Loading } from '@/components/shared/Loading'
 import { useAuth } from '@/hooks/auth/useAuth'
 
-export const Route = createFileRoute('/_app')({
-	component: AppLayout,
+export const Route = createFileRoute('/_private')({
+	component: PrivateLayout,
 })
 
-function AppLayout() {
+function PrivateLayout() {
 	const { isLoading, isAuthenticated } = useAuth()
 
 	if (isLoading) return <Loading />
