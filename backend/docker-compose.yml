@@ -1,0 +1,24 @@
+services:
+  postgres:
+    image: postgres:alpine
+    container_name: prozlove_postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: prozlove_db
+    volumes:
+      - prozlove_postgres_data:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer:latest
+    container_name: prozlove_adminer
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+
+volumes:
+  prozlove_postgres_data:

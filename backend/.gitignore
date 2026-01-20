@@ -1,0 +1,8 @@
+node_modules
+dist
+.env
+credential.json
+
+/src/generated/prisma
+
+/generated/prisma
