@@ -83,10 +83,10 @@ export function StageOneForm({ form }: IStageOneForm) {
 								<SelectValue placeholder="Selecione seu gênero" />
 							</SelectTrigger>
 							<SelectContent className="rounded-xl">
-								<SelectItem value="man" className="py-3">
+								<SelectItem value="MALE" className="py-3">
 									Homem
 								</SelectItem>
-								<SelectItem value="woman" className="py-3">
+								<SelectItem value="FEMALE" className="py-3">
 									Mulher
 								</SelectItem>
 								<SelectItem value="1" className="py-3" disabled>

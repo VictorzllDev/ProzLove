@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Button } from '@/components/ui/button'
+import { useOnboarding } from '@/hooks/user/useOnboarding'
 import { StageOneForm } from './-form/StageOneForm'
 import { StageTwoForm } from './-form/StageTwoForm'
 
@@ -37,6 +38,8 @@ const onboardingFormSchema = z.object({
 export type OnboardingFormInputs = z.infer<typeof onboardingFormSchema>
 
 function Onboarding() {
+	const { mutate } = useOnboarding()
+
 	const [stage, setStage] = useState<number>(1)
 
 	const form = useForm<OnboardingFormInputs>({
@@ -49,8 +52,8 @@ function Onboarding() {
 		},
 	})
 
-	function onSubmit(values: OnboardingFormInputs) {
-		console.log(values)
+	function onSubmit(data: OnboardingFormInputs) {
+		mutate(data)
 	}
 
 	function handleNextStage() {

@@ -7,6 +7,7 @@ const envSchema = z.object({
 	VITE_FIREBASE_STORAGE_BUCKET: z.string(),
 	VITE_FIREBASE_MESSAGING_SENDER_ID: z.string(),
 	VITE_FIREBASE_APP_ID: z.string(),
+	VITE_API_URL: z.string(),
 })
 
 export const env = envSchema.parse(import.meta.env)
