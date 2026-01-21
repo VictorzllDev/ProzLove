@@ -25,8 +25,9 @@ export const AuthContext = createContext<AuthContextType | undefined>(undefined)
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 	const [authUser, setAuthUser] = useState<IAuthUser | null>(null)
 	const [firestoreUser, setFirestoreUser] = useState<IFirestoreUser | null>(null)
+	const [authLoading, setAuthLoading] = useState(true)
+	const [firestoreLoading, setFirestoreLoading] = useState(true)
 	const [isLoading, setIsLoading] = useState(true)
-	const [firestoreLoaded, setFirestoreLoaded] = useState(false)
 
 	useEffect(() => {
 		const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -35,8 +36,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 			} else {
 				setAuthUser(null)
 				setFirestoreUser(null)
-				setFirestoreLoaded(true)
 			}
+
+			setAuthLoading(false)
 		})
 		return () => unsubscribe()
 	}, [])
@@ -44,11 +46,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 	useEffect(() => {
 		if (!authUser?.uid) {
 			setFirestoreUser(null)
-			setFirestoreLoaded(true)
+			setFirestoreLoading(false)
 			return
 		}
-
-		setFirestoreLoaded(false)
 
 		const userDocRef = doc(db, 'users', authUser.uid)
 
@@ -70,13 +70,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 						// chats: [],
 					} as IFirestoreUser)
 				}
-				setFirestoreLoaded(true)
 			},
 			(error) => {
 				console.error('Erro ao monitorar Firestore:', error)
 				setFirestoreUser(null)
-				setFirestoreLoaded(true)
 			},
+			() => setFirestoreLoading(false),
 		)
 
 		// Retorna a função de cleanup
@@ -84,12 +83,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 	}, [authUser?.uid]) // Dependência apenas do uid
 
 	useEffect(() => {
-		if (authUser === undefined) return
-
-		if (authUser && !firestoreLoaded) return
-
-		setIsLoading(false)
-	}, [authUser, firestoreLoaded])
+		if (!authLoading && !firestoreLoading) setIsLoading(false)
+	}, [authLoading, firestoreLoading])
 
 	const signIn = useSignIn({ setUser: setAuthUser })
 	const signUp = useSignUp({ setUser: setAuthUser })

@@ -11,9 +11,9 @@ export const Route = createFileRoute('/_private/_app')({
 function AppLayout() {
 	const { isLoading, firestoreUser } = useAuth()
 
-	if (isLoading) return <Loading />
+	if (isLoading || !firestoreUser) return <Loading />
 
-	if (!firestoreUser?.completedOnboarding) return <Navigate to="/onboarding" replace />
+	if (!firestoreUser.completedOnboarding) return <Navigate to="/onboarding" replace />
 
 	return (
 		<>

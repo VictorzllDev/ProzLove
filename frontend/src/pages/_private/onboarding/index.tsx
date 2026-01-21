@@ -9,6 +9,7 @@ import { useAuth } from '@/hooks/auth/useAuth'
 import { useOnboarding } from '@/hooks/user/useOnboarding'
 import { StageOneForm } from './-form/StageOneForm'
 import { StageTwoForm } from './-form/StageTwoForm'
+import { Loading } from '@/components/shared/Loading'
 
 export const Route = createFileRoute('/_private/onboarding/')({
 	component: Onboarding,
@@ -53,8 +54,6 @@ const onboardingFormSchema = z.object({
 export type OnboardingFormInputs = z.infer<typeof onboardingFormSchema>
 
 function Onboarding() {
-	const { firestoreUser } = useAuth()
-
 	const { mutate, isPending } = useOnboarding()
 
 	const [stage, setStage] = useState<number>(1)
@@ -91,8 +90,6 @@ function Onboarding() {
 			setStage(stage + 1)
 		}
 	}
-
-	if (firestoreUser?.completedOnboarding) return <Navigate to="/" replace />
 
 	return (
 		<div className="flex min-h-screen flex-col bg-linear-to-br from-rose-500 via-pink-500 to-orange-400">
