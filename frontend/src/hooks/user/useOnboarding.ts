@@ -1,13 +1,13 @@
 import { useMutation } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
 import { toast } from 'sonner'
-import { onboarding } from '@/services/user/onboarding'
+import { createOnboarding } from '@/services/onboarding/create'
 
 export function useOnboarding() {
 	const navigate = useNavigate()
 
 	return useMutation({
-		mutationFn: onboarding,
+		mutationFn: createOnboarding,
 		onError: (error) => {
 			console.log('Error ao realizar onboarding:', error)
 			toast.error('Erro ao realizar onboarding!', {

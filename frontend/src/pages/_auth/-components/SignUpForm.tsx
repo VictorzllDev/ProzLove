@@ -60,7 +60,7 @@ export function SignUpForm({ className, ...props }: React.ComponentProps<'form'>
 					<Input id="password" type="password" {...register('password')} />
 					{errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
 				</div>
-				<Button type="submit" className="w-full">
+				<Button type="submit" isLoading={signUp.isPending} className="w-full">
 					Criar conta
 				</Button>
 			</div>

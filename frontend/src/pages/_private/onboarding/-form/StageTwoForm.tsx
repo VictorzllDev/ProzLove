@@ -7,7 +7,7 @@ interface IStageTwoForm {
 		name: string
 		bio: string
 		birthday: Date
-		gender: string
+		gender: 'MALE' | 'FEMALE'
 	}>
 }
 export function StageTwoForm({ form }: IStageTwoForm) {

@@ -7,8 +7,8 @@ interface IOnboarding {
 	bio: string
 }
 
-export async function onboarding({ name, birthday, gender, bio }: IOnboarding) {
-	apiPrivate.post('/user/onboarding', {
+export async function createOnboarding({ name, birthday, gender, bio }: IOnboarding) {
+	return apiPrivate.post('/user/onboarding', {
 		name,
 		birthday: birthday.toISOString(),
 		gender,

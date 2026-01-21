@@ -1,5 +1,14 @@
 import type { User } from 'firebase/auth'
 
-// export interface IUserData {}
+export interface IAuthUser extends User {}
 
-export type IUser = User //& IUserData
+export interface IFirestoreUser {
+	completedOnboarding: boolean
+}
+
+export interface IProfile {
+	name: string
+	birthday: Date
+	gender: string
+	bio: string
+}
