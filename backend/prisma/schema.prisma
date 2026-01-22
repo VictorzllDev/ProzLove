@@ -17,7 +17,7 @@ model User {
   id        String   @id @unique // firebase uid
   name      String
   birthday  DateTime
-  bio       String   @default("Oii <3")
+  bio       String
   gender    Gender
   // photos      Photo[]
   createdAt DateTime @default(now())

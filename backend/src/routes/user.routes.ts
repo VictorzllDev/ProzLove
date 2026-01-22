@@ -62,4 +62,55 @@ export function userRoutes(app: FastifyTypeInstace) {
 			}
 		},
 	)
+
+	app.get(
+		'/profile',
+		{
+			preHandler: validateTokenMiddleware,
+			schema: {
+				tags: ['User'],
+				description: 'Get user profile',
+				response: {
+					200: z.object({
+						id: z.string(),
+						name: z.string(),
+						birthday: z.coerce.date(),
+						gender: z.string(),
+						bio: z.string(),
+						createdAt: z.coerce.date(),
+						updatedAt: z.coerce.date(),
+					}),
+					400: z
+						.object({
+							statusCode: z.number(),
+							code: z.string(),
+							error: z.string(),
+							message: z.string(),
+						})
+						.or(z.unknown()),
+					404: z
+						.object({
+							message: z.string(),
+						})
+						.or(z.unknown()),
+					500: z.null(),
+				},
+			},
+		},
+		async (req, reply) => {
+			try {
+				const user = await userUseCase.getUser(req.jwt.uid)
+				reply.status(200).send(user)
+			} catch (error) {
+				if (error instanceof ZodError) {
+					reply.status(400).send(error)
+				} else if (error instanceof HttpError) {
+					reply.status(error.statusCode as 200 | 400 | 404 | 500).send({ message: error.message })
+				} else {
+					console.log(error)
+					reply.status(500).send(null)
+				}
+			}
+		},
+	)
 }
