@@ -1,10 +1,12 @@
 import { useMutation } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
 import { toast } from 'sonner'
+import { useAuth } from '@/contexts/AuthContext'
 import { createOnboarding } from '@/services/onboarding/create'
 
 export function useOnboarding() {
 	const navigate = useNavigate()
+	const { refreshProfile } = useAuth()
 
 	return useMutation({
 		mutationFn: createOnboarding,
@@ -16,6 +18,7 @@ export function useOnboarding() {
 		},
 		onSuccess: () => {
 			toast.success('Onboarding realizado com sucesso!')
+			refreshProfile()
 			navigate({ to: '/' })
 		},
 	})

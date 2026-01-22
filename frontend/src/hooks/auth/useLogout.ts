@@ -1,13 +1,15 @@
 import { useMutation } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { logout } from '@/services/auth/logout'
-import type { IUser } from '@/types/auth'
+import type { IAuthUser, IProfile } from '@/types/auth'
 
 interface UseLogout {
-	setUser: React.Dispatch<React.SetStateAction<IUser | null>>
+	setAuthUser: (user: IAuthUser | null) => void
+	setProfile: (profile: IProfile | null) => void
+	setProfileError: (error: Error | null) => void
 }
 
-export function useLogout({ setUser }: UseLogout) {
+export function useLogout({ setAuthUser, setProfile, setProfileError }: UseLogout) {
 	return useMutation({
 		mutationFn: logout,
 		onError: (error) => {
@@ -17,7 +19,9 @@ export function useLogout({ setUser }: UseLogout) {
 			})
 		},
 		onSuccess: () => {
-			setUser(null)
+			setProfile(null)
+			setProfileError(null)
+			setAuthUser(null)
 			toast('Até logo! Você saiu da sua conta.')
 		},
 	})

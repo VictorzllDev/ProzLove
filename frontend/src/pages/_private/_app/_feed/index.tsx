@@ -7,12 +7,7 @@ export const Route = createFileRoute('/_private/_app/_feed/')({
 })
 
 function Feed() {
-	const { user, logout } = useAuth()
+	const { logout } = useAuth()
 
-	return (
-		<>
-			<div className="h-screen">Hello {user?.displayName} "/_app/feed/"!</div>
-			<Button onClick={() => logout.mutate()}>logout</Button>
-		</>
-	)
+	return <Button onClick={() => logout.mutate()}>logout</Button>
 }

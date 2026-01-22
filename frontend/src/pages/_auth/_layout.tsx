@@ -1,6 +1,5 @@
 import { createFileRoute, Link, Navigate, Outlet } from '@tanstack/react-router'
 // import placeholder from '@/assets/brand-reveal.mp4'
-import { Loading } from '@/components/shared/Loading'
 import { useAuth } from '@/hooks/auth/useAuth'
 
 export const Route = createFileRoute('/_auth')({
@@ -8,9 +7,7 @@ export const Route = createFileRoute('/_auth')({
 })
 
 function AuthLayout() {
-	const { isAuthenticated, isLoading } = useAuth()
-
-	if (isLoading) return <Loading />
+	const { isAuthenticated } = useAuth()
 
 	if (isAuthenticated) return <Navigate to="/" replace />
 

@@ -9,6 +9,8 @@ export interface IFirestoreUser {
 export interface IProfile {
 	name: string
 	birthday: Date
-	gender: string
+	gender: 'MALE' | 'FEMALE'
 	bio: string
+	createdAt: string
+	updatedAt: string
 }
