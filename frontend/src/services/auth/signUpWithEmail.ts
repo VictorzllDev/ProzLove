@@ -2,7 +2,6 @@ import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '@/firebase/config'
 
 export interface ISignUpWithEmail {
-	name: string
 	email: string
 	password: string
 }
