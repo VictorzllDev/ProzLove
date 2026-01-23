@@ -54,7 +54,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 			setProfileLoading(true)
 			setProfileError(null)
 
-			const response = await apiPrivate.get(`/user/profile`)
+			const response = await apiPrivate.get(`/user/profile/`)
 
 			if (!response.data) {
 				// Se for 404, o perfil ainda não foi criado no backend

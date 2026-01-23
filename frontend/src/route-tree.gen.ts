@@ -19,6 +19,7 @@ import { Route as PrivateAppProfileIndexRouteImport } from './pages/_private/_ap
 import { Route as PrivateAppMeetsIndexRouteImport } from './pages/_private/_app/meets/index'
 import { Route as PrivateAppChatIndexRouteImport } from './pages/_private/_app/chat/index'
 import { Route as PrivateAppFeedIndexRouteImport } from './pages/_private/_app/_feed/index'
+import { Route as PrivateAppProfileUserIdRouteImport } from './pages/_private/_app/profile/$userId'
 
 const PrivateLayoutRoute = PrivateLayoutRouteImport.update({
   id: '/_private',
@@ -67,11 +68,17 @@ const PrivateAppFeedIndexRoute = PrivateAppFeedIndexRouteImport.update({
   path: '/',
   getParentRoute: () => PrivateAppLayoutRoute,
 } as any)
+const PrivateAppProfileUserIdRoute = PrivateAppProfileUserIdRouteImport.update({
+  id: '/profile/$userId',
+  path: '/profile/$userId',
+  getParentRoute: () => PrivateAppLayoutRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/sign-in': typeof AuthSignInRoute
   '/sign-up': typeof AuthSignUpRoute
   '/onboarding': typeof PrivateOnboardingIndexRoute
+  '/profile/$userId': typeof PrivateAppProfileUserIdRoute
   '/': typeof PrivateAppFeedIndexRoute
   '/chat': typeof PrivateAppChatIndexRoute
   '/meets': typeof PrivateAppMeetsIndexRoute
@@ -81,6 +88,7 @@ export interface FileRoutesByTo {
   '/sign-in': typeof AuthSignInRoute
   '/sign-up': typeof AuthSignUpRoute
   '/onboarding': typeof PrivateOnboardingIndexRoute
+  '/profile/$userId': typeof PrivateAppProfileUserIdRoute
   '/': typeof PrivateAppFeedIndexRoute
   '/chat': typeof PrivateAppChatIndexRoute
   '/meets': typeof PrivateAppMeetsIndexRoute
@@ -94,6 +102,7 @@ export interface FileRoutesById {
   '/_auth/sign-in': typeof AuthSignInRoute
   '/_auth/sign-up': typeof AuthSignUpRoute
   '/_private/onboarding/': typeof PrivateOnboardingIndexRoute
+  '/_private/_app/profile/$userId': typeof PrivateAppProfileUserIdRoute
   '/_private/_app/_feed/': typeof PrivateAppFeedIndexRoute
   '/_private/_app/chat/': typeof PrivateAppChatIndexRoute
   '/_private/_app/meets/': typeof PrivateAppMeetsIndexRoute
@@ -105,6 +114,7 @@ export interface FileRouteTypes {
     | '/sign-in'
     | '/sign-up'
     | '/onboarding'
+    | '/profile/$userId'
     | '/'
     | '/chat'
     | '/meets'
@@ -114,6 +124,7 @@ export interface FileRouteTypes {
     | '/sign-in'
     | '/sign-up'
     | '/onboarding'
+    | '/profile/$userId'
     | '/'
     | '/chat'
     | '/meets'
@@ -126,6 +137,7 @@ export interface FileRouteTypes {
     | '/_auth/sign-in'
     | '/_auth/sign-up'
     | '/_private/onboarding/'
+    | '/_private/_app/profile/$userId'
     | '/_private/_app/_feed/'
     | '/_private/_app/chat/'
     | '/_private/_app/meets/'
@@ -209,6 +221,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivateAppFeedIndexRouteImport
       parentRoute: typeof PrivateAppLayoutRoute
     }
+    '/_private/_app/profile/$userId': {
+      id: '/_private/_app/profile/$userId'
+      path: '/profile/$userId'
+      fullPath: '/profile/$userId'
+      preLoaderRoute: typeof PrivateAppProfileUserIdRouteImport
+      parentRoute: typeof PrivateAppLayoutRoute
+    }
   }
 }
 
@@ -227,6 +246,7 @@ const AuthLayoutRouteWithChildren = AuthLayoutRoute._addFileChildren(
 )
 
 interface PrivateAppLayoutRouteChildren {
+  PrivateAppProfileUserIdRoute: typeof PrivateAppProfileUserIdRoute
   PrivateAppFeedIndexRoute: typeof PrivateAppFeedIndexRoute
   PrivateAppChatIndexRoute: typeof PrivateAppChatIndexRoute
   PrivateAppMeetsIndexRoute: typeof PrivateAppMeetsIndexRoute
@@ -234,6 +254,7 @@ interface PrivateAppLayoutRouteChildren {
 }
 
 const PrivateAppLayoutRouteChildren: PrivateAppLayoutRouteChildren = {
+  PrivateAppProfileUserIdRoute: PrivateAppProfileUserIdRoute,
   PrivateAppFeedIndexRoute: PrivateAppFeedIndexRoute,
   PrivateAppChatIndexRoute: PrivateAppChatIndexRoute,
   PrivateAppMeetsIndexRoute: PrivateAppMeetsIndexRoute,

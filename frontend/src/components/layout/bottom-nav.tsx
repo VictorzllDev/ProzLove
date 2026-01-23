@@ -14,7 +14,7 @@ export const tabs: ITabs[] = [
 	{ id: 'feed', label: 'Feed', path: '/', icon: Flame },
 	{ id: 'meets', label: 'Meets', path: '/meets', icon: Users },
 	{ id: 'chat', label: 'Chat', path: '/chat', icon: MessageCircle },
-	{ id: 'profile', label: 'Perfil', path: '/profile', icon: User },
+	{ id: 'profile', label: 'Perfil', path: '/profile/me', icon: User },
 ]
 
 export function BottomNav() {

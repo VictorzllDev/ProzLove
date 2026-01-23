@@ -1,15 +1,13 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { createFileRoute, Link, Navigate } from '@tanstack/react-router'
+import { createFileRoute, Link, } from '@tanstack/react-router'
 import { Flame, Heart } from 'lucide-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Button } from '@/components/ui/button'
-import { useAuth } from '@/hooks/auth/useAuth'
 import { useOnboarding } from '@/hooks/user/useOnboarding'
 import { StageOneForm } from './-form/StageOneForm'
 import { StageTwoForm } from './-form/StageTwoForm'
-import { Loading } from '@/components/shared/Loading'
 
 export const Route = createFileRoute('/_private/onboarding/')({
 	component: Onboarding,
