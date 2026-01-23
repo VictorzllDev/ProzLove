@@ -64,12 +64,15 @@ export function userRoutes(app: FastifyTypeInstace) {
 	)
 
 	app.get(
-		'/profile',
+		'/profile/:id',
 		{
 			preHandler: validateTokenMiddleware,
 			schema: {
 				tags: ['User'],
 				description: 'Get user profile',
+				params: z.object({
+					id: z.string().optional(),
+				}),
 				response: {
 					200: z.object({
 						id: z.string(),
@@ -99,7 +102,8 @@ export function userRoutes(app: FastifyTypeInstace) {
 		},
 		async (req, reply) => {
 			try {
-				const user = await userUseCase.getUser(req.jwt.uid)
+				const id = req.params.id
+				const user = await userUseCase.getUser(id || req.jwt.uid)
 				reply.status(200).send(user)
 			} catch (error) {
 				if (error instanceof ZodError) {
