@@ -7,6 +7,7 @@ export interface IFirestoreUser {
 }
 
 export interface IProfile {
+	id: string
 	name: string
 	birthday: Date
 	gender: 'MALE' | 'FEMALE'

@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { createFileRoute, Link, } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import { Flame, Heart } from 'lucide-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
