@@ -14,17 +14,27 @@ datasource db {
 }
 
 model User {
-  id        String   @id @unique // firebase uid
-  name      String
-  birthday  DateTime
-  bio       String
-  gender    Gender
+  id               String    @id @unique // firebase uid
+  name             String
+  birthday         DateTime
+  bio              String
+  gender           Gender
   // photos      Photo[]
+  givenLikes       Like[]    @relation("UserGivenLikes")
+  receivedLikes    Like[]    @relation("UserReceivedLikes")
+  givenDislikes    Dislike[] @relation("UserGivenDislikes")
+  receivedDislikes Dislike[] @relation("UserReceivedDislikes")
+
+  // Matches (agora com nomes diferentes)
+  matchesAsUser1 Match[] @relation("User1Matches")
+  matchesAsUser2 Match[] @relation("User2Matches")
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   // Índices para performance no feed
   @@index([gender, createdAt])
+  @@map("users")
 }
 
 // model Photo {
@@ -37,6 +47,48 @@ model User {
 //
 //   @@index([userId, isPrimary])
 // }
+
+model Like {
+  id        String   @id @default(cuid())
+  userId    String // Quem deu like
+  targetId  String // Quem recebeu like
+  createdAt DateTime @default(now())
+
+  user   User @relation("UserGivenLikes", fields: [userId], references: [id])
+  target User @relation("UserReceivedLikes", fields: [targetId], references: [id])
+
+  @@unique([userId, targetId])
+  @@map("likes")
+}
+
+// 3. Rejeições
+model Dislike {
+  id        String   @id @default(cuid())
+  userId    String
+  targetId  String
+  createdAt DateTime @default(now())
+
+  user   User @relation("UserGivenDislikes", fields: [userId], references: [id])
+  target User @relation("UserReceivedDislikes", fields: [targetId], references: [id])
+
+  @@unique([userId, targetId])
+  @@map("dislikes")
+}
+
+// 4. Matches (MUDEI o nome para UserMatch)
+model Match {
+  id        String   @id @default(cuid())
+  user1Id   String
+  user2Id   String
+  chatId    String
+  createdAt DateTime @default(now())
+
+  user1 User @relation("User1Matches", fields: [user1Id], references: [id])
+  user2 User @relation("User2Matches", fields: [user2Id], references: [id])
+
+  @@unique([user1Id, user2Id])
+  @@map("matches") // Mas a tabela ainda se chama "matches"
+}
 
 enum Gender {
   MALE

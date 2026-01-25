@@ -9,6 +9,7 @@ import {
 	type ZodTypeProvider,
 } from 'fastify-type-provider-zod'
 import { env } from './env'
+import { swipeRoutes } from './routes/swipe.routes'
 import { userRoutes } from './routes/user.routes'
 
 const app = fastify().withTypeProvider<ZodTypeProvider>()
@@ -38,9 +39,13 @@ app.register(userRoutes, {
 	prefix: '/user',
 })
 
+app.register(swipeRoutes, {
+	prefix: '/swipe',
+})
+
 app.listen({ port: env.PORT }, async (err, address) => {
 	if (err) {
-		console.error(err)
+		app.log.error(err)
 		process.exit(1)
 	}
 	console.log(`Server listening at ${address}`)
