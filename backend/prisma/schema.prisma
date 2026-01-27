@@ -19,7 +19,7 @@ model User {
   birthday         DateTime
   bio              String
   gender           Gender
-  // photos      Photo[]
+  photos           Photo[]
   givenLikes       Like[]    @relation("UserGivenLikes")
   receivedLikes    Like[]    @relation("UserReceivedLikes")
   givenDislikes    Dislike[] @relation("UserGivenDislikes")
@@ -37,16 +37,16 @@ model User {
   @@map("users")
 }
 
-// model Photo {
-//   id        String   @id @default(cuid())
-//   url       String
-//   isPrimary Boolean  @default(false)
-//   userId    String
-//   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-//   createdAt DateTime @default(now())
-//
-//   @@index([userId, isPrimary])
-// }
+model Photo {
+  id        String   @id @default(cuid())
+  url       String
+  isPrimary Boolean  @default(false)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@index([userId, isPrimary])
+}
 
 model Like {
   id        String   @id @default(cuid())

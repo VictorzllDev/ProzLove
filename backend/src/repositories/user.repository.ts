@@ -1,8 +1,8 @@
 import { prisma } from '../lib/prisma'
-import type { IUser, IUserRepository } from '../types/user.types'
+import type { ISaveUser, IUser, IUserRepository } from '../types/entities/user.entity'
 
 export class UserRepository implements IUserRepository {
-	async save({ id, name, birthday, gender, bio }: IUser): Promise<void> {
+	async save({ id, name, birthday, gender, bio }: ISaveUser): Promise<void> {
 		await prisma.user.upsert({
 			where: { id },
 			update: { name, birthday, gender, bio },
@@ -14,6 +14,9 @@ export class UserRepository implements IUserRepository {
 		return await prisma.user.findUnique({
 			where: {
 				id,
+			},
+			include: {
+				photos: true,
 			},
 		})
 	}

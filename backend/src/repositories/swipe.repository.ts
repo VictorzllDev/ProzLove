@@ -1,6 +1,6 @@
 import { prisma } from '../lib/prisma'
-import type { IDislike, ILike, IMatch, ISwipeRepository } from '../types/swipe.types'
-import type { IUser } from '../types/user.types'
+import type { IDislike, ILike, IMatch, ISwipeRepository } from '../types/entities/swipe.entity'
+import type { IUser } from '../types/entities/user.entity'
 
 export class SwipeRepository implements ISwipeRepository {
 	async nextProfile(userId: string, targetId: string | null): Promise<IUser | null> {
@@ -45,6 +45,7 @@ export class SwipeRepository implements ISwipeRepository {
 				id: { notIn: excludedUserIds },
 				gender: oppositeGender,
 			},
+			include: { photos: true },
 			take: 1,
 			skip: Math.floor(
 				Math.random() *
@@ -157,23 +158,19 @@ export class SwipeRepository implements ISwipeRepository {
 	}
 
 	async deleteLike(userId: string, targetId: string): Promise<void> {
-		await prisma.like.delete({
+		await prisma.like.deleteMany({
 			where: {
-				userId_targetId: {
-					userId,
-					targetId,
-				},
+				userId,
+				targetId,
 			},
 		})
 	}
 
 	async deleteDislike(userId: string, targetId: string): Promise<void> {
-		await prisma.dislike.delete({
+		await prisma.dislike.deleteMany({
 			where: {
-				userId_targetId: {
-					userId,
-					targetId,
-				},
+				userId,
+				targetId,
 			},
 		})
 	}

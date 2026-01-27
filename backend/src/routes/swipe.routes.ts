@@ -1,7 +1,8 @@
 import { ZodError, z } from 'zod'
 import { validateTokenMiddleware } from '../middlewares/validate-token.middleware'
 import { SwipeRepository } from '../repositories/swipe.repository'
-import type { FastifyTypeInstace } from '../types/fastify.types'
+import { swipeAndGetNextProfileInputSchema, swipeAndGetNextProfileOutputSchema } from '../types/dtos/swipe.dto'
+import type { FastifyTypeInstace } from '../types/shared/fastify.types'
 import { SwipeUsecase } from '../usecases/swipe.usecase'
 import { HttpError } from '../utils/http-error.util'
 
@@ -15,32 +16,9 @@ export function swipeRoutes(app: FastifyTypeInstace) {
 			schema: {
 				tags: ['Swipe'],
 				description: '',
-				body: z.object({
-					targetId: z.string().or(z.null()),
-					like: z.boolean().or(z.null()),
-				}),
+				body: swipeAndGetNextProfileInputSchema,
 				response: {
-					200: z.object({
-						match: z
-							.object({
-								id: z.string(),
-								user1Id: z.string(),
-								user2Id: z.string(),
-								chatId: z.string(),
-								createdAt: z.date(),
-							})
-							.or(z.null())
-							.optional(),
-						nextProfile: z
-							.object({
-								id: z.string(),
-								name: z.string(),
-								birthday: z.date(),
-								gender: z.string(),
-								bio: z.string(),
-							})
-							.or(z.null()),
-					}),
+					200: swipeAndGetNextProfileOutputSchema,
 					400: z
 						.object({
 							statusCode: z.number(),
@@ -58,7 +36,7 @@ export function swipeRoutes(app: FastifyTypeInstace) {
 		},
 		async (req, reply) => {
 			try {
-				const swipe = await swipeUseCase.swipe({
+				const swipe = await swipeUseCase.SwipeAndGetNextProfile({
 					...req.body,
 					userId: req.jwt.uid,
 				})
