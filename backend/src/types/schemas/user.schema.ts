@@ -1,18 +1,11 @@
 import { z } from 'zod'
+import { photoSchema } from './photo.schema'
 
 export const jwtPayloadSchema = z.object({
 	uid: z.string(),
 	email: z.string(),
 	iat: z.number(),
 	exp: z.number(),
-})
-
-export const photoSchema = z.object({
-	id: z.string(),
-	url: z.string(),
-	isPrimary: z.boolean(),
-	userId: z.string(),
-	createdAt: z.date(),
 })
 
 export const userSchema = z.object({

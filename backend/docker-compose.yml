@@ -12,14 +12,5 @@ services:
     volumes:
       - prozlove_postgres_data:/var/lib/postgresql/data
 
-  adminer:
-    image: adminer:latest
-    container_name: prozlove_adminer
-    restart: unless-stopped
-    ports:
-      - "8080:8080"
-    depends_on:
-      - postgres
-
 volumes:
   prozlove_postgres_data:

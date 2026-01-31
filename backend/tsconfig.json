@@ -1,49 +1,20 @@
 {
-	// Visit https://aka.ms/tsconfig to read more about this file
+	"$schema": "https://www.schemastore.org/tsconfig",
+	"_version": "24.0.0",
 	"compilerOptions": {
-		// File Layout
-		// "rootDir": "./src",
-		// "outDir": "./dist",
-
-		// Prisma
-		"moduleResolution": "node",
-		"esModuleInterop": true,
-		"ignoreDeprecations": "6.0",
-
-		// Environment Settings
-		// See also https://aka.ms/tsconfig/module
+		"lib": [
+			"es2024",
+			"ESNext.Array",
+			"ESNext.Collection",
+			"ESNext.Iterator",
+			"ESNext.Promise"
+		],
 		"module": "nodenext",
-		"target": "ES2024",
-		"types": [],
-		// For nodejs:
-		"lib": ["ES2024"],
-		// "types": ["node"],
-		// and npm install -D @types/node
-
-		// Other Outputs
-		"sourceMap": true,
-		"declaration": true,
-		"declarationMap": true,
-
-		// Stricter Typechecking Options
-		"noUncheckedIndexedAccess": true,
-		"exactOptionalPropertyTypes": true,
-
-		// Style Options
-		// "noImplicitReturns": true,
-		// "noImplicitOverride": true,
-		// "noUnusedLocals": true,
-		// "noUnusedParameters": true,
-		// "noFallthroughCasesInSwitch": true,
-		// "noPropertyAccessFromIndexSignature": true,
-
-		// Recommended Options
+		"target": "es2024",
 		"strict": true,
-		"jsx": "react-jsx",
-		"verbatimModuleSyntax": true,
-		"isolatedModules": true,
-		"noUncheckedSideEffectImports": true,
-		"moduleDetection": "force",
-		"skipLibCheck": true
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"moduleResolution": "node16"
 	}
 }
+

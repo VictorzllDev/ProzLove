@@ -1,10 +1,11 @@
-import type z from 'zod'
+import type { z } from 'zod'
 import type {
 	createOnboardingInputWithIdSchema,
 	getUserOutputSchema,
 	updateOnboardingInputSchema,
 } from '../dtos/user.dto'
-import type { jwtPayloadSchema, photoSchema, saveUserSchema, userSchema } from '../schemas/user.schema'
+import type { photoSchema } from '../schemas/photo.schema'
+import type { jwtPayloadSchema, saveUserSchema, userSchema } from '../schemas/user.schema'
 
 // Entities
 export type IJWTPayload = z.infer<typeof jwtPayloadSchema>

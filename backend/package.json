@@ -3,9 +3,9 @@
 	"version": "1.0.0",
 	"main": "dist/index.js",
 	"scripts": {
-		"start": "node --env-file=.env dist/index.js",
-		"dev": "tsx watch --env-file=.env src/index.ts",
-		"build": "tsup src",
+		"start": "node dist/index.mjs",
+		"dev": "tsx watch src/index.ts",
+		"build": "tsup src --format esm",
 		"format": "biome format --write src",
 		"lint": "biome lint --write --unsafe ./src"
 	},

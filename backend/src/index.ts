@@ -9,6 +9,7 @@ import {
 	type ZodTypeProvider,
 } from 'fastify-type-provider-zod'
 import { env } from './env'
+import { photoRoutes } from './routes/photo.routes'
 import { swipeRoutes } from './routes/swipe.routes'
 import { userRoutes } from './routes/user.routes'
 
@@ -43,7 +44,11 @@ app.register(swipeRoutes, {
 	prefix: '/swipe',
 })
 
-app.listen({ port: env.PORT }, async (err, address) => {
+app.register(photoRoutes, {
+	prefix: '/photo',
+})
+
+app.listen({ port: env.PORT }, (err, address) => {
 	if (err) {
 		app.log.error(err)
 		process.exit(1)
