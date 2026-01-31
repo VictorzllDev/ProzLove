@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { getUser } from '@/services/user/get'
-import type { IProfile } from '@/types/auth'
+import type { IProfileWithStats } from '@/types/auth'
 import { useAuth } from '../auth/useAuth'
 
 export function useGetUser(userId: string) {
@@ -8,7 +8,7 @@ export function useGetUser(userId: string) {
 
 	const isOwnProfile = userId === 'me' || userId === profile?.id
 
-	const query = useQuery<IProfile, Error>({
+	const query = useQuery<IProfileWithStats, Error>({
 		queryKey: ['user-profile', userId],
 		queryFn: async () => {
 			if (isOwnProfile) {

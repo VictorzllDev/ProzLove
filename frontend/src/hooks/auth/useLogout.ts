@@ -1,11 +1,12 @@
 import { useMutation } from '@tanstack/react-query'
+import type { Dispatch, SetStateAction } from 'react'
 import { toast } from 'sonner'
 import { logout } from '@/services/auth/logout'
-import type { IAuthUser, IProfile } from '@/types/auth'
+import type { IAuthUser, IProfileWithStats } from '@/types/auth'
 
 interface UseLogout {
 	setAuthUser: (user: IAuthUser | null) => void
-	setProfile: (profile: IProfile | null) => void
+	setProfile: Dispatch<SetStateAction<IProfileWithStats | null>>
 	setProfileError: (error: Error | null) => void
 }
 

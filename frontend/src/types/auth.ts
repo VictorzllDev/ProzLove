@@ -13,11 +13,14 @@ export interface IProfile {
 	gender: 'MALE' | 'FEMALE'
 	bio: string
 	photos: IPhoto[]
+	createdAt: string
+	updatedAt: string
+}
+
+export interface IProfileWithStats extends IProfile {
 	likes: number
 	dislikes: number
 	matches: number
-	createdAt: string
-	updatedAt: string
 }
 
 export interface IPhoto {

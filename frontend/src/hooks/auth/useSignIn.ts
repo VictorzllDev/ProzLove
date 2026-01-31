@@ -1,12 +1,13 @@
 import { useMutation } from '@tanstack/react-query'
+import type { Dispatch, SetStateAction } from 'react'
 import { toast } from 'sonner'
 import { signInWithEmail } from '@/services/auth/signInWithEmail'
-import type { IAuthUser, IProfile } from '@/types/auth'
+import type { IAuthUser, IProfileWithStats } from '@/types/auth'
 
 interface UseSignIn {
 	setAuthUser: (user: IAuthUser | null) => void
-	setProfile: (profile: IProfile | null) => void
-	fetchUserProfile: () => Promise<IProfile | null>
+	setProfile: Dispatch<SetStateAction<IProfileWithStats | null>>
+	fetchUserProfile: () => Promise<IProfileWithStats | null>
 }
 
 export function useSignIn({ setAuthUser, setProfile, fetchUserProfile }: UseSignIn) {

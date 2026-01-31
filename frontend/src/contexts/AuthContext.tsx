@@ -9,12 +9,12 @@ import { useSignIn } from '@/hooks/auth/useSignIn'
 import { useSignUp } from '@/hooks/auth/useSignUp'
 import type { ISignInWithEmail } from '@/services/auth/signInWithEmail'
 import type { ISignUpWithEmail } from '@/services/auth/signUpWithEmail'
-import type { IAuthUser, IFirestoreUser, IProfile } from '@/types/auth'
+import type { IAuthUser, IFirestoreUser, IProfileWithStats } from '@/types/auth'
 
 interface AuthContextType {
 	authUser: IAuthUser | null
 	firestoreUser: IFirestoreUser | null
-	profile: IProfile | null
+	profile: IProfileWithStats | null
 	isAuthenticated: boolean
 	isLoading: boolean
 	isAuthLoading: boolean
@@ -41,7 +41,7 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 	const [authUser, setAuthUser] = useState<IAuthUser | null>(null)
 	const [firestoreUser, setFirestoreUser] = useState<IFirestoreUser | null>(null)
-	const [profile, setProfile] = useState<IProfile | null>(null)
+	const [profile, setProfile] = useState<IProfileWithStats | null>(null)
 
 	const [authLoading, setAuthLoading] = useState(true)
 	const [firestoreLoading, setFirestoreLoading] = useState(true)
@@ -49,12 +49,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 	const [profileError, setProfileError] = useState<Error | null>(null)
 
 	// Função para buscar dados do backend
-	const fetchUserProfile = useCallback(async (): Promise<IProfile | null> => {
+	const fetchUserProfile = useCallback(async (): Promise<IProfileWithStats | null> => {
 		try {
 			setProfileLoading(true)
 			setProfileError(null)
 
-			const response = await apiPrivate.get(`/user/profile/`)
+			const response = await apiPrivate.get<IProfileWithStats>(`/user/profile/`)
 
 			if (!response.data) {
 				// Se for 404, o perfil ainda não foi criado no backend
@@ -70,8 +70,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 				throw new Error(`Erro ao buscar perfil: ${response.status}`)
 			}
 
-			const data = await response.data
-			return data as IProfile
+			const data = response.data
+			return data
 		} catch (error) {
 			console.warn('Erro ao buscar perfil do backend:', error)
 			setProfileError(error instanceof Error ? error : new Error('Erro desconhecido ao buscar perfil'))
