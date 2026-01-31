@@ -12,7 +12,7 @@ interface FeedState {
 
 export function useFeedProfile() {
 	const nextProfile = useNextProfile()
-	const [state, setState] = useState<FeedState>({
+	const [feedState, setFeedState] = useState<FeedState>({
 		currentProfile: null,
 		isPending: true,
 		error: null,
@@ -21,10 +21,10 @@ export function useFeedProfile() {
 
 	const handleInteraction = useCallback(
 		async (liked: boolean) => {
-			const currentProfile = state.currentProfile
+			const currentProfile = feedState.currentProfile
 			if (!currentProfile) return
 
-			setState((prev) => ({
+			setFeedState((prev) => ({
 				...prev,
 				isPending: true,
 				error: null,
@@ -40,48 +40,47 @@ export function useFeedProfile() {
 					toast.success('Parabens! Você encontrou uma nova amizade!')
 				}
 
-				setState((prev) => ({
+				setFeedState((prev) => ({
 					...prev,
 					currentProfile: data.nextProfile,
 					totalViewed: prev.totalViewed + 1,
 				}))
 			} catch (error) {
-				setState((prev) => ({
+				setFeedState((prev) => ({
 					...prev,
 					error: error instanceof Error ? error.message : 'Erro na interação',
 				}))
 			} finally {
-				setState((prev) => ({
+				setFeedState((prev) => ({
 					...prev,
 					isPending: false,
 				}))
 			}
 		},
-		[state.currentProfile, nextProfile.mutateAsync],
+		[feedState.currentProfile, nextProfile.mutateAsync],
 	)
 
 	const handleRefresh = useCallback(async () => {
-		setState((prev) => ({
+		setFeedState((prev) => ({
 			...prev,
 			isPending: true,
+			error: null,
 		}))
 
 		try {
 			const data = await nextProfile.mutateAsync({ targetId: null, like: null })
-			setState((prev) => ({
+			setFeedState((prev) => ({
 				...prev,
 				currentProfile: data.nextProfile,
-				isPending: false,
 				error: null,
 			}))
 		} catch (error) {
-			setState((prev) => ({
+			setFeedState((prev) => ({
 				...prev,
-				isPending: false,
 				error: error instanceof Error ? error.message : 'erro ao atualizar',
 			}))
 		} finally {
-			setState((prev) => ({
+			setFeedState((prev) => ({
 				...prev,
 				isPending: false,
 			}))
@@ -89,21 +88,30 @@ export function useFeedProfile() {
 	}, [nextProfile.mutateAsync])
 
 	const loadInitialProfile = useCallback(async () => {
+		setFeedState((prev) => ({
+			...prev,
+			isPending: true,
+			error: null,
+		}))
+
 		try {
 			const data = await nextProfile.mutateAsync({ targetId: null, like: null })
-			setState((prev) => ({
+			setFeedState((prev) => ({
 				...prev,
 				currentProfile: data.nextProfile,
-				isPending: false,
 			}))
 		} catch (error) {
-			setState((prev) => ({
+			setFeedState((prev) => ({
+				...prev,
+				error: error instanceof Error ? error.message : 'Erro ao carregar',
+			}))
+		} finally {
+			setFeedState((prev) => ({
 				...prev,
 				isPending: false,
-				error: error instanceof Error ? error.message : 'Erro ao carregar',
 			}))
 		}
 	}, [nextProfile.mutateAsync])
 
-	return { state, handleInteraction, handleRefresh, loadInitialProfile }
+	return { feedState, handleInteraction, handleRefresh, loadInitialProfile }
 }

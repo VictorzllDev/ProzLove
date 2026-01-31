@@ -11,14 +11,15 @@ export const Route = createFileRoute('/_private/_app/_feed/')({
 })
 
 function Feed() {
-	const { state: feedState, handleInteraction, handleRefresh, loadInitialProfile } = useFeedProfile()
+	const { feedState, handleInteraction, handleRefresh, loadInitialProfile } = useFeedProfile()
 
 	const handleLike = () => handleInteraction(true)
 	const handleDislike = () => handleInteraction(false)
 
 	useEffect(() => {
+		if (feedState.currentProfile) return
 		loadInitialProfile()
-	}, [loadInitialProfile])
+	}, [feedState.currentProfile, loadInitialProfile])
 
 	if (feedState.isPending) {
 		return <Spinner className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
