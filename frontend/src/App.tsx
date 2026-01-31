@@ -1,5 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { createRouter, RouterProvider } from '@tanstack/react-router'
+import { Toaster } from './components/ui/sonner'
 import { AuthProvider } from './contexts/AuthContext'
 import { routeTree } from './route-tree.gen'
 
@@ -14,10 +15,14 @@ declare module '@tanstack/react-router' {
 
 export function App() {
 	return (
-		<QueryClientProvider client={queryClient}>
-			<AuthProvider>
-				<RouterProvider router={router} />
-			</AuthProvider>
-		</QueryClientProvider>
+		<>
+			<QueryClientProvider client={queryClient}>
+				<AuthProvider>
+					<RouterProvider router={router} />
+				</AuthProvider>
+			</QueryClientProvider>
+
+			<Toaster position="top-right" />
+		</>
 	)
 }

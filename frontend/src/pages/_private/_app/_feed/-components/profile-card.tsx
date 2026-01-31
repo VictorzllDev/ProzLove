@@ -14,7 +14,7 @@ interface IProfileCard {
 }
 
 export function ProfileCard({ profile, onRefresh, onLike, onDislike }: IProfileCard) {
-	const primaryPhoto = profile.photos?.find((p) => p.isPrimary) || profile.photos?.[0]
+	const primaryPhoto = profile.photos?.find((p) => p.isPrimary)
 
 	return (
 		<div className="mb-6 rounded-xl bg-white p-6 shadow-lg transition-all hover:shadow-xl">
@@ -22,7 +22,7 @@ export function ProfileCard({ profile, onRefresh, onLike, onDislike }: IProfileC
 				<Link to="/profile/$userId" params={{ userId: profile.id }} className="group relative shrink-0">
 					<div className="relative">
 						<Avatar className="h-20 w-20">
-							<AvatarImage src={primaryPhoto.url} />
+							<AvatarImage src={primaryPhoto?.url} />
 							<AvatarFallback className="text-2xl">{getInitials(profile.name)}</AvatarFallback>
 						</Avatar>
 						<div className="absolute inset-0 rounded-full bg-black/0 transition-colors duration-200 group-hover:bg-black/10" />

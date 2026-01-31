@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react'
 import { toast } from 'sonner'
 import type { IProfile } from '@/types/auth'
+import { useAuth } from '../auth/useAuth'
 import { useNextProfile } from './useNextProfile'
 
 interface FeedState {
@@ -11,6 +12,7 @@ interface FeedState {
 }
 
 export function useFeedProfile() {
+	const { refreshProfile } = useAuth()
 	const nextProfile = useNextProfile()
 	const [feedState, setFeedState] = useState<FeedState>({
 		currentProfile: null,
@@ -38,6 +40,7 @@ export function useFeedProfile() {
 
 				if (data.match) {
 					toast.success('Parabens! Você encontrou uma nova amizade!')
+					refreshProfile()
 				}
 
 				setFeedState((prev) => ({
@@ -57,7 +60,7 @@ export function useFeedProfile() {
 				}))
 			}
 		},
-		[feedState.currentProfile, nextProfile.mutateAsync],
+		[feedState.currentProfile, nextProfile.mutateAsync, refreshProfile],
 	)
 
 	const handleRefresh = useCallback(async () => {

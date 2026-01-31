@@ -13,6 +13,9 @@ export interface IProfile {
 	gender: 'MALE' | 'FEMALE'
 	bio: string
 	photos: IPhoto[]
+	likes: number
+	dislikes: number
+	matches: number
 	createdAt: string
 	updatedAt: string
 }

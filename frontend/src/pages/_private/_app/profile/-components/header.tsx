@@ -1,4 +1,6 @@
 import { Heart, MapPin, Mars, Sparkles, Venus, Verified } from 'lucide-react'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { getInitials } from '@/utils/getInitials.util'
 
 interface ProfileHeaderProps {
 	name: string
@@ -18,15 +20,18 @@ export function ProfileHeader({ name, age, gender, location, verified, profileIm
 				<div className="relative mx-auto w-fit">
 					<div className="absolute inset-0 scale-95 rounded-3xl bg-linear-to-br from-primary to-accent opacity-50 blur-xl" />
 					<div className="relative overflow-hidden rounded-3xl bg-card shadow-2xl">
-						<div className="relative h-96 w-72 md:h-112 md:w-80">
-							<img src={profileImage} alt={name} className="object-cover" />
+						<div className="relative h-72 w-72 md:h-80 md:w-80">
+							<Avatar className="h-full w-full rounded-none">
+								<AvatarImage src={profileImage} />
+								<AvatarFallback className="h-full w-full rounded-none text-5xl">{getInitials(name)}</AvatarFallback>
+							</Avatar>
 
 							<div className="absolute right-0 bottom-0 left-0 bg-linear-to-t from-foreground/90 via-foreground/50 to-transparent p-6">
-								<div className="flex items-center gap-2">
-									<h1 className="font-bold text-2xl text-card">{name}</h1>
-									<span className="text-card/80 text-xl">{age}</span>
+								<div className="flex min-w-0 flex-nowrap items-center gap-2">
+									<h1 className="truncate font-bold text-2xl text-card">{name}</h1>
+									<span className="whitespace-nowrap text-card/80 text-xl">{age}</span>
 									{verified && (
-										<div className="rounded-full bg-primary p-1">
+										<div className="shrink-0 rounded-full bg-primary p-1">
 											<Verified className="h-4 w-4 text-primary-foreground" />
 										</div>
 									)}
