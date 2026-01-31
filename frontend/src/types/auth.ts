@@ -12,6 +12,15 @@ export interface IProfile {
 	birthday: Date
 	gender: 'MALE' | 'FEMALE'
 	bio: string
+	photos: IPhoto[]
 	createdAt: string
 	updatedAt: string
+}
+
+export interface IPhoto {
+	id: string
+	url: string
+	isPrimary: boolean
+	userId: string
+	createdAt: string
 }
