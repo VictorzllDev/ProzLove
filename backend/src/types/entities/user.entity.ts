@@ -5,7 +5,7 @@ import type {
 	updateOnboardingInputSchema,
 } from '../dtos/user.dto'
 import type { photoSchema } from '../schemas/photo.schema'
-import type { jwtPayloadSchema, saveUserSchema, userSchema } from '../schemas/user.schema'
+import type { jwtPayloadSchema, saveUserSchema, statsSchema, userSchema } from '../schemas/user.schema'
 
 // Entities
 export type IJWTPayload = z.infer<typeof jwtPayloadSchema>
@@ -22,6 +22,9 @@ export type IGetUserOutput = z.infer<typeof getUserOutputSchema>
 // Inputs repository
 export type ISaveUser = z.infer<typeof saveUserSchema>
 
+// Outputs repository
+export type IStats = z.infer<typeof statsSchema>
+
 // Use Cases
 export interface IUserUseCase {
 	onboarding(user: ICreateOnboardingWithIdInput): Promise<void>
@@ -32,4 +35,5 @@ export interface IUserUseCase {
 export interface IUserRepository {
 	save(user: ISaveUser): Promise<void>
 	get(id: string): Promise<IUser | null>
+	getStats(userId: string): Promise<IStats>
 }

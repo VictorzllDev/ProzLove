@@ -20,6 +20,8 @@ export class UserUsecase implements IUserUseCase {
 		const user = await this.userRepository.get(id)
 		if (!user) throw new HttpError('User not found', 404)
 
-		return user
+		const userStats = await this.userRepository.getStats(id)
+
+		return { ...user, ...userStats }
 	}
 }

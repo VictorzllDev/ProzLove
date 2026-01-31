@@ -26,3 +26,9 @@ export const saveUserSchema = userSchema.pick({
 	gender: true,
 	bio: true,
 })
+
+export const statsSchema = z.object({
+	likes: z.number(),
+	dislikes: z.number(),
+	matches: z.number(),
+})

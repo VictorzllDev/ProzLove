@@ -22,4 +22,8 @@ export const getUserInputSchema = z.object({
 	id: z.string().optional(),
 })
 
-export const getUserOutputSchema = userSchema
+export const getUserOutputSchema = userSchema.extend({
+	likes: z.number(),
+	dislikes: z.number(),
+	matches: z.number(),
+})
