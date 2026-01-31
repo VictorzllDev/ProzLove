@@ -4,7 +4,7 @@ import { toast } from 'sonner'
 import { useAuth } from '@/contexts/AuthContext'
 import { createOnboarding } from '@/services/onboarding/create'
 
-export function useOnboarding() {
+export function useCreateOnboarding() {
 	const navigate = useNavigate()
 	const { refreshProfile } = useAuth()
 

@@ -1,11 +1,7 @@
-import { zodResolver } from '@hookform/resolvers/zod'
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { Flame, Heart } from 'lucide-react'
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
 import { Button } from '@/components/ui/button'
-import { useOnboarding } from '@/hooks/user/useOnboarding'
+import { useOnboarding } from '@/hooks/onboarding/useOnboarding'
 import { StageOneForm } from './-form/StageOneForm'
 import { StageTwoForm } from './-form/StageTwoForm'
 
@@ -20,74 +16,8 @@ export const Route = createFileRoute('/_private/onboarding/')({
 	}),
 })
 
-const onboardingFormSchema = z.object({
-	name: z
-		.string()
-		.trim()
-		.min(2, {
-			message: 'O nome deve ter pelo menos 2 caracteres.',
-		})
-		.max(100, 'Nome muito longo'),
-	bio: z
-		.string()
-		.trim()
-		.min(1, {
-			message: 'A biografia deve ter pelo menos 1 caracteres.',
-		})
-		.max(255, { message: 'Biografia muito longa.' }),
-	birthday: z
-		.date({
-			message: 'Selecione uma data de nascimento valida.',
-		})
-		.refine((date) => {
-			const today = new Date()
-			const minDate = new Date(today.getFullYear() - 17, today.getMonth(), today.getDate())
-			return date <= minDate
-		}, 'Você deve ter pelo menos 17 anos'),
-	gender: z.enum(['MALE', 'FEMALE'], {
-		message: 'Selecione um Genero.',
-	}),
-})
-
-export type OnboardingFormInputs = z.infer<typeof onboardingFormSchema>
-
 function Onboarding() {
-	const { mutate, isPending } = useOnboarding()
-
-	const [stage, setStage] = useState<number>(1)
-
-	const form = useForm<OnboardingFormInputs>({
-		resolver: zodResolver(onboardingFormSchema),
-		defaultValues: {
-			name: undefined,
-			bio: undefined,
-			birthday: undefined,
-			gender: undefined,
-		},
-	})
-
-	function onSubmit(data: OnboardingFormInputs) {
-		mutate(data)
-	}
-
-	async function handleNextStage() {
-		let isValid = false
-
-		switch (stage) {
-			case 1:
-				isValid = await form.trigger(['name', 'birthday', 'gender'])
-				break
-			case 2:
-				isValid = await form.trigger('bio')
-				break
-			default:
-				isValid = false
-		}
-
-		if (isValid) {
-			setStage(stage + 1)
-		}
-	}
+	const { form, stage, createOnboarding, avatarUrl, setAvatarUrl, onSubmit, handleNextStage } = useOnboarding()
 
 	return (
 		<div className="flex min-h-screen flex-col bg-linear-to-br from-rose-500 via-pink-500 to-orange-400">
@@ -118,14 +48,14 @@ function Onboarding() {
 						</div>
 
 						<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-							{stage === 1 && <StageOneForm form={form} />}
+							{stage === 1 && <StageOneForm form={form} onAvatarChange={setAvatarUrl} defaultAvatar={avatarUrl} />}
 							{stage === 2 && <StageTwoForm form={form} />}
 
 							{stage === 2 ? (
 								<Button
 									type="submit"
 									variant="default"
-									isLoading={isPending}
+									isLoading={createOnboarding.isPending}
 									className="h-12 w-full bg-linear-to-r from-rose-500 via-pink-500 to-orange-400 font-bold text-white hover:from-rose-600 hover:via-pink-600 hover:to-orange-500"
 								>
 									Finalizar Perfil

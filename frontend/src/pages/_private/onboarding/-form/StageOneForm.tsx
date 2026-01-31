@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { AvatarPicker } from '../-components/avatar-picker'
 
 interface IStageOneForm {
 	form: UseFormReturn<{
@@ -15,9 +16,11 @@ interface IStageOneForm {
 		birthday: Date
 		gender: 'MALE' | 'FEMALE'
 	}>
+	defaultAvatar: string
+	onAvatarChange: (avatarUrl: string) => void
 }
 
-export function StageOneForm({ form }: IStageOneForm) {
+export function StageOneForm({ form, defaultAvatar, onAvatarChange }: IStageOneForm) {
 	const [open, setOpen] = useState<boolean>(false)
 
 	const {
@@ -28,6 +31,10 @@ export function StageOneForm({ form }: IStageOneForm) {
 
 	return (
 		<>
+			<div className="space-y-2">
+				<AvatarPicker onAvatarChange={onAvatarChange} defaultAvatar={defaultAvatar} />
+			</div>
+
 			<div className="space-y-2">
 				<Label htmlFor="name" className="font-semibold text-gray-700 text-sm">
 					Como você se chama?
@@ -78,7 +85,7 @@ export function StageOneForm({ form }: IStageOneForm) {
 					control={control}
 					name="gender"
 					render={({ field }) => (
-						<Select value={field.value} onValueChange={field.onChange}>
+						<Select value={field.value || ''} onValueChange={field.onChange}>
 							<SelectTrigger id="gender">
 								<SelectValue placeholder="Selecione seu gênero" />
 							</SelectTrigger>
