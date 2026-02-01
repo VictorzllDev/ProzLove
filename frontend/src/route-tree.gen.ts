@@ -16,8 +16,8 @@ import { Route as AuthSignInRouteImport } from './pages/_auth/sign-in'
 import { Route as PrivateAppLayoutRouteImport } from './pages/_private/_app/_layout'
 import { Route as PrivateOnboardingIndexRouteImport } from './pages/_private/onboarding/index'
 import { Route as PrivateAppProfileIndexRouteImport } from './pages/_private/_app/profile/index'
-import { Route as PrivateAppMeetsIndexRouteImport } from './pages/_private/_app/meets/index'
-import { Route as PrivateAppChatIndexRouteImport } from './pages/_private/_app/chat/index'
+import { Route as PrivateAppMatchesIndexRouteImport } from './pages/_private/_app/matches/index'
+import { Route as PrivateAppChatsIndexRouteImport } from './pages/_private/_app/chats/index'
 import { Route as PrivateAppFeedIndexRouteImport } from './pages/_private/_app/_feed/index'
 import { Route as PrivateAppProfileUserIdRouteImport } from './pages/_private/_app/profile/$userId'
 
@@ -53,14 +53,14 @@ const PrivateAppProfileIndexRoute = PrivateAppProfileIndexRouteImport.update({
   path: '/profile/',
   getParentRoute: () => PrivateAppLayoutRoute,
 } as any)
-const PrivateAppMeetsIndexRoute = PrivateAppMeetsIndexRouteImport.update({
-  id: '/meets/',
-  path: '/meets/',
+const PrivateAppMatchesIndexRoute = PrivateAppMatchesIndexRouteImport.update({
+  id: '/matches/',
+  path: '/matches/',
   getParentRoute: () => PrivateAppLayoutRoute,
 } as any)
-const PrivateAppChatIndexRoute = PrivateAppChatIndexRouteImport.update({
-  id: '/chat/',
-  path: '/chat/',
+const PrivateAppChatsIndexRoute = PrivateAppChatsIndexRouteImport.update({
+  id: '/chats/',
+  path: '/chats/',
   getParentRoute: () => PrivateAppLayoutRoute,
 } as any)
 const PrivateAppFeedIndexRoute = PrivateAppFeedIndexRouteImport.update({
@@ -80,8 +80,8 @@ export interface FileRoutesByFullPath {
   '/onboarding': typeof PrivateOnboardingIndexRoute
   '/profile/$userId': typeof PrivateAppProfileUserIdRoute
   '/': typeof PrivateAppFeedIndexRoute
-  '/chat': typeof PrivateAppChatIndexRoute
-  '/meets': typeof PrivateAppMeetsIndexRoute
+  '/chats': typeof PrivateAppChatsIndexRoute
+  '/matches': typeof PrivateAppMatchesIndexRoute
   '/profile': typeof PrivateAppProfileIndexRoute
 }
 export interface FileRoutesByTo {
@@ -90,8 +90,8 @@ export interface FileRoutesByTo {
   '/onboarding': typeof PrivateOnboardingIndexRoute
   '/profile/$userId': typeof PrivateAppProfileUserIdRoute
   '/': typeof PrivateAppFeedIndexRoute
-  '/chat': typeof PrivateAppChatIndexRoute
-  '/meets': typeof PrivateAppMeetsIndexRoute
+  '/chats': typeof PrivateAppChatsIndexRoute
+  '/matches': typeof PrivateAppMatchesIndexRoute
   '/profile': typeof PrivateAppProfileIndexRoute
 }
 export interface FileRoutesById {
@@ -104,8 +104,8 @@ export interface FileRoutesById {
   '/_private/onboarding/': typeof PrivateOnboardingIndexRoute
   '/_private/_app/profile/$userId': typeof PrivateAppProfileUserIdRoute
   '/_private/_app/_feed/': typeof PrivateAppFeedIndexRoute
-  '/_private/_app/chat/': typeof PrivateAppChatIndexRoute
-  '/_private/_app/meets/': typeof PrivateAppMeetsIndexRoute
+  '/_private/_app/chats/': typeof PrivateAppChatsIndexRoute
+  '/_private/_app/matches/': typeof PrivateAppMatchesIndexRoute
   '/_private/_app/profile/': typeof PrivateAppProfileIndexRoute
 }
 export interface FileRouteTypes {
@@ -116,8 +116,8 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/profile/$userId'
     | '/'
-    | '/chat'
-    | '/meets'
+    | '/chats'
+    | '/matches'
     | '/profile'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -126,8 +126,8 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/profile/$userId'
     | '/'
-    | '/chat'
-    | '/meets'
+    | '/chats'
+    | '/matches'
     | '/profile'
   id:
     | '__root__'
@@ -139,8 +139,8 @@ export interface FileRouteTypes {
     | '/_private/onboarding/'
     | '/_private/_app/profile/$userId'
     | '/_private/_app/_feed/'
-    | '/_private/_app/chat/'
-    | '/_private/_app/meets/'
+    | '/_private/_app/chats/'
+    | '/_private/_app/matches/'
     | '/_private/_app/profile/'
   fileRoutesById: FileRoutesById
 }
@@ -200,18 +200,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivateAppProfileIndexRouteImport
       parentRoute: typeof PrivateAppLayoutRoute
     }
-    '/_private/_app/meets/': {
-      id: '/_private/_app/meets/'
-      path: '/meets'
-      fullPath: '/meets'
-      preLoaderRoute: typeof PrivateAppMeetsIndexRouteImport
+    '/_private/_app/matches/': {
+      id: '/_private/_app/matches/'
+      path: '/matches'
+      fullPath: '/matches'
+      preLoaderRoute: typeof PrivateAppMatchesIndexRouteImport
       parentRoute: typeof PrivateAppLayoutRoute
     }
-    '/_private/_app/chat/': {
-      id: '/_private/_app/chat/'
-      path: '/chat'
-      fullPath: '/chat'
-      preLoaderRoute: typeof PrivateAppChatIndexRouteImport
+    '/_private/_app/chats/': {
+      id: '/_private/_app/chats/'
+      path: '/chats'
+      fullPath: '/chats'
+      preLoaderRoute: typeof PrivateAppChatsIndexRouteImport
       parentRoute: typeof PrivateAppLayoutRoute
     }
     '/_private/_app/_feed/': {
@@ -248,16 +248,16 @@ const AuthLayoutRouteWithChildren = AuthLayoutRoute._addFileChildren(
 interface PrivateAppLayoutRouteChildren {
   PrivateAppProfileUserIdRoute: typeof PrivateAppProfileUserIdRoute
   PrivateAppFeedIndexRoute: typeof PrivateAppFeedIndexRoute
-  PrivateAppChatIndexRoute: typeof PrivateAppChatIndexRoute
-  PrivateAppMeetsIndexRoute: typeof PrivateAppMeetsIndexRoute
+  PrivateAppChatsIndexRoute: typeof PrivateAppChatsIndexRoute
+  PrivateAppMatchesIndexRoute: typeof PrivateAppMatchesIndexRoute
   PrivateAppProfileIndexRoute: typeof PrivateAppProfileIndexRoute
 }
 
 const PrivateAppLayoutRouteChildren: PrivateAppLayoutRouteChildren = {
   PrivateAppProfileUserIdRoute: PrivateAppProfileUserIdRoute,
   PrivateAppFeedIndexRoute: PrivateAppFeedIndexRoute,
-  PrivateAppChatIndexRoute: PrivateAppChatIndexRoute,
-  PrivateAppMeetsIndexRoute: PrivateAppMeetsIndexRoute,
+  PrivateAppChatsIndexRoute: PrivateAppChatsIndexRoute,
+  PrivateAppMatchesIndexRoute: PrivateAppMatchesIndexRoute,
   PrivateAppProfileIndexRoute: PrivateAppProfileIndexRoute,
 }
 

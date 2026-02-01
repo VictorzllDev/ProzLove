@@ -1,11 +1,10 @@
 import { apiPrivate } from '@/axios/apiPrivate'
 import type { IProfileWithStats } from '@/types/auth'
 
-interface IGetUser {
+interface IGetUserInput {
 	id: string
 }
-
-export async function getUser({ id }: IGetUser): Promise<IProfileWithStats> {
-	const { data } = await apiPrivate.get<IProfileWithStats>(`/user/profile/${id}`)
+export async function getUser(input?: IGetUserInput): Promise<IProfileWithStats> {
+	const { data } = await apiPrivate.get<IProfileWithStats>(`/user/profile/${input?.id || ''}`)
 	return data
 }

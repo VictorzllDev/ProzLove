@@ -1,4 +1,5 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { createRouter, RouterProvider } from '@tanstack/react-router'
 import { Toaster } from './components/ui/sonner'
 import { AuthProvider } from './contexts/AuthContext'
@@ -20,6 +21,8 @@ export function App() {
 				<AuthProvider>
 					<RouterProvider router={router} />
 				</AuthProvider>
+
+				<ReactQueryDevtools initialIsOpen={false} position="bottom" />
 			</QueryClientProvider>
 
 			<Toaster position="top-right" />

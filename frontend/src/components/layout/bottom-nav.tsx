@@ -12,8 +12,8 @@ interface ITabs {
 
 export const tabs: ITabs[] = [
 	{ id: 'feed', label: 'Feed', path: '/', icon: Flame },
-	{ id: 'meets', label: 'Meets', path: '/meets', icon: Users },
-	{ id: 'chat', label: 'Chat', path: '/chat', icon: MessageCircle },
+	{ id: 'matches', label: 'Matches', path: '/matches', icon: Users },
+	{ id: 'chats', label: 'Chats', path: '/chats', icon: MessageCircle },
 	{ id: 'profile', label: 'Perfil', path: '/profile/me', icon: User },
 ]
 

@@ -1,7 +1,7 @@
+import { useQueryClient } from '@tanstack/react-query'
 import { useCallback, useState } from 'react'
 import { toast } from 'sonner'
-import type { IProfile } from '@/types/auth'
-import { useAuth } from '../auth/useAuth'
+import type { IProfile, IProfileWithStats } from '@/types/auth'
 import { useNextProfile } from './useNextProfile'
 
 interface FeedState {
@@ -12,8 +12,9 @@ interface FeedState {
 }
 
 export function useFeedProfile() {
-	const { refreshProfile } = useAuth()
+	const queryClient = useQueryClient()
 	const nextProfile = useNextProfile()
+
 	const [feedState, setFeedState] = useState<FeedState>({
 		currentProfile: null,
 		isPending: true,
@@ -40,7 +41,13 @@ export function useFeedProfile() {
 
 				if (data.match) {
 					toast.success('Parabens! Você encontrou uma nova amizade!')
-					refreshProfile()
+					queryClient.setQueryData(['user-profile', 'me'], (oldData: IProfileWithStats) => {
+						if (!oldData) return oldData
+						return {
+							...oldData,
+							matches: oldData.matches + 1,
+						}
+					})
 				}
 
 				setFeedState((prev) => ({
@@ -60,7 +67,7 @@ export function useFeedProfile() {
 				}))
 			}
 		},
-		[feedState.currentProfile, nextProfile.mutateAsync, refreshProfile],
+		[feedState.currentProfile, nextProfile.mutateAsync, queryClient],
 	)
 
 	const handleRefresh = useCallback(async () => {

@@ -12,11 +12,11 @@ import {
 import { useAuth } from '@/contexts/AuthContext'
 import { tabs } from './bottom-nav'
 
-type TabType = 'feed' | 'meets' | 'chat' | 'profile'
+type TabType = 'feed' | 'matches' | 'chats' | 'profile'
 const tabTitles: Record<TabType, string> = {
 	feed: 'Descobrir',
-	meets: 'Meus Meets',
-	chat: 'Conversas',
+	matches: 'Meus Matches',
+	chats: 'Conversas',
 	profile: 'Perfil',
 }
 

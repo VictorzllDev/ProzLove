@@ -38,7 +38,7 @@ export function ProfileCard({ profile, onRefresh, onLike, onDislike }: IProfileC
 								</h2>
 							</Link>
 
-							<div className="mt-1 flex items-center gap-3 text-gray-600">
+							<div className="flex items-center gap-3 text-gray-600">
 								{profile.birthday && (
 									<span className="font-medium text-sm">{calculateAge(String(profile.birthday))} anos</span>
 								)}

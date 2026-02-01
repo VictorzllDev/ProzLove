@@ -7,7 +7,7 @@ interface INextProfile {
 }
 
 export async function nextProfile({ targetId, like }: INextProfile) {
-	const { data } = await apiPrivate.post<ISwipe>('/swipe/nextprofile', {
+	const { data } = await apiPrivate.post<ISwipe>('/user/swipe/nextprofile', {
 		targetId,
 		like,
 	})
