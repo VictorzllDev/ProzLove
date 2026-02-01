@@ -10,7 +10,6 @@ import {
 } from 'fastify-type-provider-zod'
 import { env } from './env'
 import { photoRoutes } from './routes/photo.routes'
-import { swipeRoutes } from './routes/swipe.routes'
 import { userRoutes } from './routes/user.routes'
 
 const app = fastify().withTypeProvider<ZodTypeProvider>()
@@ -38,10 +37,6 @@ app.register(scalar, {
 
 app.register(userRoutes, {
 	prefix: '/user',
-})
-
-app.register(swipeRoutes, {
-	prefix: '/swipe',
 })
 
 app.register(photoRoutes, {

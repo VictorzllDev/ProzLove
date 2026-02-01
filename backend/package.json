@@ -4,7 +4,7 @@
 	"main": "dist/index.js",
 	"scripts": {
 		"start": "node dist/index.mjs",
-		"dev": "tsx watch src/index.ts",
+		"dev": "tsx --watch src/index.ts",
 		"build": "tsup src --format esm",
 		"format": "biome format --write src",
 		"lint": "biome lint --write --unsafe ./src"

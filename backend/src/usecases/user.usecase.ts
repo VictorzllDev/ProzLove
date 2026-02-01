@@ -2,6 +2,8 @@ import { db } from '../firebase/config'
 import type {
 	ICreateOnboardingWithIdInput,
 	IGetUserOutput,
+	ISwipeAndGetNextProfileOutput,
+	ISwipeAndGetNextProfileWithIdInput,
 	IUser,
 	IUserRepository,
 	IUserUseCase,
@@ -24,6 +26,52 @@ export class UserUsecase implements IUserUseCase {
 		const userStats = await this.userRepository.getStats(id)
 
 		return { ...user, ...userStats }
+	}
+
+	async SwipeAndGetNextProfile({
+		userId,
+		targetId,
+		like,
+	}: ISwipeAndGetNextProfileWithIdInput): Promise<ISwipeAndGetNextProfileOutput> {
+		const nextProfile = await this.userRepository.nextProfile(userId, targetId)
+
+		if (userId === targetId || !targetId || like === null) {
+			return {
+				nextProfile,
+				match: null,
+			}
+		}
+
+		if (like === true) {
+			const isDislike = await this.userRepository.findDislike(userId, targetId)
+			if (isDislike) await this.userRepository.deleteDislike(userId, targetId)
+
+			await this.userRepository.like(userId, targetId)
+
+			const match = await this.userRepository.match(userId, targetId)
+
+			return {
+				nextProfile,
+				match,
+			}
+		}
+
+		if (like === false) {
+			const isLike = await this.userRepository.findLike(userId, targetId)
+			if (isLike) await this.userRepository.deleteLike(userId, targetId)
+
+			await this.userRepository.dislike(userId, targetId)
+
+			return {
+				nextProfile,
+				match: null,
+			}
+		}
+
+		return {
+			nextProfile,
+			match: null,
+		}
 	}
 
 	async getLikesReceived(userId: string): Promise<IUser[]> {

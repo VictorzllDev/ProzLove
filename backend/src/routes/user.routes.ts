@@ -6,6 +6,8 @@ import {
 	getLikesReceivedOutputSchema,
 	getUserInputSchema,
 	getUserOutputSchema,
+	swipeAndGetNextProfileInputSchema,
+	swipeAndGetNextProfileOutputSchema,
 } from '../types/dtos/user.dto'
 import type { FastifyTypeInstace } from '../types/shared/fastify.types'
 import { UserUsecase } from '../usecases/user.usecase'
@@ -19,7 +21,7 @@ export function userRoutes(app: FastifyTypeInstace) {
 		{
 			preHandler: validateTokenMiddleware,
 			schema: {
-				tags: ['User'],
+				tags: ['Onboarding'],
 				description: 'User onboarding',
 				body: createOnboardingInputSchema,
 				response: {
@@ -65,7 +67,7 @@ export function userRoutes(app: FastifyTypeInstace) {
 		{
 			preHandler: validateTokenMiddleware,
 			schema: {
-				tags: ['User'],
+				tags: ['Profile'],
 				description: 'Get user profile',
 				params: getUserInputSchema,
 				response: {
@@ -105,12 +107,57 @@ export function userRoutes(app: FastifyTypeInstace) {
 		},
 	)
 
+	app.post(
+		'/swipe/nextprofile',
+		{
+			preHandler: validateTokenMiddleware,
+			schema: {
+				tags: ['Discovery'],
+				description: 'Get profiles for swiping',
+				body: swipeAndGetNextProfileInputSchema,
+				response: {
+					200: swipeAndGetNextProfileOutputSchema,
+					400: z
+						.object({
+							statusCode: z.number(),
+							code: z.string(),
+							error: z.string(),
+							message: z.string(),
+						})
+						.or(z.unknown()),
+					422: z.object({
+						message: z.string(),
+					}),
+					500: z.null(),
+				},
+			},
+		},
+		async (req, reply) => {
+			try {
+				const swipe = await userUseCase.SwipeAndGetNextProfile({
+					...req.body,
+					userId: req.jwt.uid,
+				})
+				reply.status(200).send(swipe)
+			} catch (error) {
+				if (error instanceof ZodError) {
+					reply.status(400).send(error)
+				} else if (error instanceof HttpError) {
+					reply.status(error.statusCode as 200 | 400 | 422 | 500).send({ message: error.message })
+				} else {
+					console.log(error)
+					reply.status(500).send(null)
+				}
+			}
+		},
+	)
+
 	app.get(
 		'/likes/received',
 		{
 			preHandler: validateTokenMiddleware,
 			schema: {
-				tags: ['User'],
+				tags: ['Interactions'],
 				description: 'Get Likes Received',
 				response: {
 					200: getLikesReceivedOutputSchema,
