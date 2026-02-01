@@ -53,4 +53,58 @@ export class UserRepository implements IUserRepository {
 			matches,
 		}
 	}
+
+	async getLikesReceived(userId: string): Promise<IUser[]> {
+		return await prisma.user.findMany({
+			where: {
+				givenLikes: {
+					some: {
+						targetId: userId,
+					},
+				},
+				AND: [
+					{
+						receivedLikes: {
+							none: {
+								userId: userId,
+							},
+						},
+					},
+					{
+						receivedDislikes: {
+							none: {
+								userId: userId,
+							},
+						},
+					},
+					{
+						OR: [
+							{
+								matchesAsUser1: {
+									none: {
+										user2Id: userId,
+									},
+								},
+							},
+							{
+								matchesAsUser2: {
+									none: {
+										user1Id: userId,
+									},
+								},
+							},
+						],
+					},
+				],
+			},
+			include: {
+				photos: {
+					where: {
+						isPrimary: true,
+					},
+					take: 1,
+				},
+			},
+		})
+	}
 }

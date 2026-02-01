@@ -2,6 +2,7 @@ import { db } from '../firebase/config'
 import type {
 	ICreateOnboardingWithIdInput,
 	IGetUserOutput,
+	IUser,
 	IUserRepository,
 	IUserUseCase,
 } from '../types/entities/user.entity'
@@ -23,5 +24,9 @@ export class UserUsecase implements IUserUseCase {
 		const userStats = await this.userRepository.getStats(id)
 
 		return { ...user, ...userStats }
+	}
+
+	async getLikesReceived(userId: string): Promise<IUser[]> {
+		return await this.userRepository.getLikesReceived(userId)
 	}
 }

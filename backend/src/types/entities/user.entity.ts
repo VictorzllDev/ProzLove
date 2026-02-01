@@ -29,6 +29,7 @@ export type IStats = z.infer<typeof statsSchema>
 export interface IUserUseCase {
 	onboarding(user: ICreateOnboardingWithIdInput): Promise<void>
 	getUser(id: string): Promise<IGetUserOutput>
+	getLikesReceived(userId: string): Promise<IUser[]>
 }
 
 // Repositories
@@ -36,4 +37,5 @@ export interface IUserRepository {
 	save(user: ISaveUser): Promise<void>
 	get(id: string): Promise<IUser | null>
 	getStats(userId: string): Promise<IStats>
+	getLikesReceived(userId: string): Promise<IUser[]>
 }

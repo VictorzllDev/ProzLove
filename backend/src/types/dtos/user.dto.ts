@@ -27,3 +27,7 @@ export const getUserOutputSchema = userSchema.extend({
 	dislikes: z.number(),
 	matches: z.number(),
 })
+
+export const getLikesReceivedOutputSchema = z.object({
+	likes: z.array(userSchema),
+})
