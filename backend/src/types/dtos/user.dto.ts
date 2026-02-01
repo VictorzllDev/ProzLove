@@ -2,7 +2,7 @@ import { z } from 'zod'
 import { matchSchema } from '../schemas/match.schema'
 import { userSchema } from '../schemas/user.schema'
 
-// Onboarding
+// INPUT - ONBOARDING
 export const createOnboardingInputSchema = z.object({
 	name: z.string().trim().min(2, 'Name must have at least 2 characters').max(100, 'Very long name'),
 	birthday: z.coerce.date().refine((date) => {
@@ -20,18 +20,19 @@ export const createOnboardingInputWithIdSchema = createOnboardingInputSchema.ext
 
 export const updateOnboardingInputSchema = createOnboardingInputSchema.partial()
 
-// Get User
+// INPUT - GET USER
 export const getUserInputSchema = z.object({
 	id: z.string().optional(),
 })
 
+// OUTPUT - GET USER
 export const getUserOutputSchema = userSchema.extend({
 	likes: z.number(),
 	dislikes: z.number(),
 	matches: z.number(),
 })
 
-// Swipe
+// INPUT - SWIPE AND GET NEXT PROFILE
 export const swipeAndGetNextProfileInputSchema = z.object({
 	targetId: z.string().or(z.null()).optional().default(null),
 	like: z.boolean().or(z.null()).optional().default(null),
@@ -41,12 +42,30 @@ export const swipeAndGetNextProfileWithIdInputSchema = swipeAndGetNextProfileInp
 	userId: z.string(),
 })
 
+// OUTPUT - SWIPE AND GET NEXT PROFILE
 export const swipeAndGetNextProfileOutputSchema = z.object({
 	match: matchSchema.or(z.null()).optional().default(null),
 	nextProfile: userSchema.or(z.null()).optional().default(null),
 })
 
-// Get Likes Received
+// OUTPUT - LIKES RECEIVED
 export const getLikesReceivedOutputSchema = z.object({
 	likes: z.array(userSchema),
+})
+
+// INPUT - LIKE TOGGLE
+export const likeToggleInputSchema = z.object({
+	targetId: z.string(),
+	action: z.enum(['like', 'dislike']),
+})
+
+export const likeToggleWithIdInputSchema = likeToggleInputSchema.extend({
+	userId: z.string(),
+})
+
+// OUTPUT - LIKE TOGGLE
+export const likeToggleOutputSchema = z.object({
+	action: z.enum(['liked', 'disliked']),
+	isMatch: z.boolean(),
+	match: matchSchema.or(z.null()),
 })

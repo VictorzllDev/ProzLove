@@ -6,6 +6,8 @@ import {
 	getLikesReceivedOutputSchema,
 	getUserInputSchema,
 	getUserOutputSchema,
+	likeToggleInputSchema,
+	likeToggleOutputSchema,
 	swipeAndGetNextProfileInputSchema,
 	swipeAndGetNextProfileOutputSchema,
 } from '../types/dtos/user.dto'
@@ -182,6 +184,54 @@ export function userRoutes(app: FastifyTypeInstace) {
 			try {
 				const likes = await userUseCase.getLikesReceived(req.jwt.uid)
 				reply.status(200).send({ likes })
+			} catch (error) {
+				if (error instanceof ZodError) {
+					reply.status(400).send(error)
+				} else if (error instanceof HttpError) {
+					reply.status(error.statusCode as 200 | 400 | 404 | 500).send({ message: error.message })
+				} else {
+					console.log(error)
+					reply.status(500).send(null)
+				}
+			}
+		},
+	)
+
+	app.post(
+		'/likes/toggle',
+		{
+			preHandler: validateTokenMiddleware,
+			schema: {
+				tags: ['Interactions'],
+				description: 'Toggle Like',
+				body: likeToggleInputSchema,
+				response: {
+					200: likeToggleOutputSchema,
+					400: z
+						.object({
+							statusCode: z.number(),
+							code: z.string(),
+							error: z.string(),
+							message: z.string(),
+						})
+						.or(z.unknown()),
+					404: z
+						.object({
+							message: z.string(),
+						})
+						.or(z.unknown()),
+					500: z.null(),
+				},
+			},
+		},
+		async (req, reply) => {
+			try {
+				const like = await userUseCase.toggleLike({
+					...req.body,
+					userId: req.jwt.uid,
+				})
+
+				reply.status(200).send(like)
 			} catch (error) {
 				if (error instanceof ZodError) {
 					reply.status(400).send(error)
