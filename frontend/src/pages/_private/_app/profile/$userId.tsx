@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import { ErrorPage } from '@/components/shared/error-page'
 import { Spinner } from '@/components/ui/spinner'
 import { useAuth } from '@/contexts/AuthContext'
-import { useGetUser } from '@/hooks/user/useGetUser'
+import { useGetProfile } from '@/hooks/profile/useGetProfile'
 import { calculateAge } from '@/utils/calculate-age.util'
 import { ProfileBio } from './-components/bio'
 import { ProfileHeader } from './-components/header'
@@ -38,7 +38,7 @@ export default function Profile() {
 		}
 	}, [userId, authUser?.uid, navigate])
 
-	const { data: userState, isLoading, isError } = useGetUser(userId)
+	const { data: userState, isLoading, isError } = useGetProfile(userId)
 
 	if (isLoading) {
 		return <Spinner className="mx-auto h-dvh" />

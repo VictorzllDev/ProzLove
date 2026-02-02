@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
+import type { ILikesReceivedOutput } from '@/services/interaction/likes-received'
 import { toggleLike } from '@/services/interaction/toggle-like'
-import type { ILikesReceivedOutput } from '@/services/user/likes-received'
 import type { IProfileWithStats } from '@/types/auth'
 
 export function useToggleLike() {

@@ -1,5 +1,5 @@
 import { apiPrivate } from '@/axios/apiPrivate'
-import type { IMatch } from '@/types/swipe'
+import type { IMatch } from '@/types/match'
 
 export interface IToggleLikeInput {
 	targetId: string

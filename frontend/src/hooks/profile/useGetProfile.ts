@@ -1,28 +1,27 @@
 import { useQuery } from '@tanstack/react-query'
-import { getUser } from '@/services/user/get'
-import type { IProfileWithStats } from '@/types/auth'
+import { getProfile } from '@/services/profile/get-profile'
 import { useAuth } from '../auth/useAuth'
 
-export function useGetUser(userId: string) {
+export function useGetProfile(userId: string) {
 	const { profile, isProfileLoading } = useAuth()
 
 	const isOwnProfile = userId === 'me' || userId === profile?.id
 
-	const query = useQuery<IProfileWithStats, Error>({
+	const query = useQuery({
 		queryKey: ['user-profile', userId],
 		queryFn: async () => {
 			if (isOwnProfile) {
 				if (!profile) {
 					throw new Error('Unauthenticated user')
 				}
-				return await getUser()
+				return await getProfile()
 			}
 
 			if (!userId) {
 				throw new Error('User ID is required')
 			}
 
-			return await getUser({ id: userId })
+			return await getProfile({ id: userId })
 		},
 		enabled: !!userId || !!profile?.id,
 		staleTime: isOwnProfile ? 1 * 60 * 1000 : 5 * 60 * 1000, // 1 minute for own profile, 5 minutes for others

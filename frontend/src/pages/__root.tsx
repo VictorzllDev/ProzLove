@@ -1,5 +1,5 @@
 import { createRootRoute, HeadContent, Outlet } from '@tanstack/react-router'
-import { Loading } from '@/components/shared/Loading'
+import { LogoSplash } from '@/components/shared/splash'
 import { useAuth } from '@/contexts/AuthContext'
 
 export const Route = createRootRoute({
@@ -9,7 +9,7 @@ export const Route = createRootRoute({
 function RootComponent() {
 	const { isLoading } = useAuth()
 
-	if (isLoading) return <Loading />
+	if (isLoading) return <LogoSplash />
 
 	return (
 		<>

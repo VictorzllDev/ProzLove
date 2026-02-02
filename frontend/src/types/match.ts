@@ -10,8 +10,3 @@ export interface IMatch {
 	user1?: IProfile
 	user2?: IProfile
 }
-
-export interface ISwipe {
-	nextProfile: IProfile | null
-	match: IMatch | null
-}
