@@ -56,10 +56,12 @@ export interface IUserRepository {
 	nextProfile(userId: string, targetId: string | null): Promise<IUser | null>
 	like(userId: string, targetId: string): Promise<ILike>
 	dislike(userId: string, targetId: string): Promise<IDislike>
+	hasReciprocalLike(userId: string, targetId: string): Promise<boolean>
 	findLike(userId: string, targetId: string): Promise<ILike | null>
 	findDislike(userId: string, targetId: string): Promise<IDislike | null>
 	deleteLike(userId: string, targetId: string): Promise<void>
 	deleteDislike(userId: string, targetId: string): Promise<void>
 	getLikesReceived(userId: string): Promise<IUser[]>
-	match(userId: string, targetId: string): Promise<IMatch | null>
+	createMatch(userId: string, targetId: string): Promise<IMatch>
+	findExistingMatch(userId: string, targetId: string): Promise<IMatch | null>
 }

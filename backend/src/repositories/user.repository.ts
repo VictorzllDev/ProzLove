@@ -148,42 +148,16 @@ export class UserRepository implements IUserRepository {
 		})
 	}
 
-	async match(userId: string, targetId: string): Promise<IMatch | null> {
-		const [user1, user2] = [userId, targetId]
-		const isReciprocoMatch = await prisma.like.findUnique({
+	async hasReciprocalLike(userId: string, targetId: string): Promise<boolean> {
+		const reciprocalLike = await prisma.like.findUnique({
 			where: {
 				userId_targetId: {
-					userId: user2,
-					targetId: user1,
+					userId: targetId,
+					targetId: userId,
 				},
 			},
 		})
-		if (!isReciprocoMatch) return null
-
-		const existingMatch = await prisma.match.findUnique({
-			where: {
-				user1Id_user2Id: {
-					user1Id: user1,
-					user2Id: user2,
-				},
-			},
-		})
-
-		if (existingMatch) {
-			return existingMatch // Já existe, retorna o existente
-		}
-
-		const chatId = `${user1}_${user2}`
-
-		const match = await prisma.match.create({
-			data: {
-				user1Id: user1,
-				user2Id: user2,
-				chatId: chatId,
-			},
-		})
-
-		return match
+		return !!reciprocalLike
 	}
 
 	async findLike(userId: string, targetId: string): Promise<ILike | null> {
@@ -278,5 +252,35 @@ export class UserRepository implements IUserRepository {
 				},
 			},
 		})
+	}
+
+	async createMatch(userId: string, targetId: string): Promise<IMatch> {
+		const chatId = `${userId}_${targetId}`
+
+		return await prisma.match.create({
+			data: {
+				user1Id: userId,
+				user2Id: targetId,
+				chatId,
+			},
+		})
+	}
+
+	async findExistingMatch(userId: string, targetId: string): Promise<IMatch | null> {
+		const match = await prisma.match.findFirst({
+			where: {
+				OR: [
+					{
+						user1Id: userId,
+						user2Id: targetId,
+					},
+					{
+						user1Id: targetId,
+						user2Id: userId,
+					},
+				],
+			},
+		})
+		return match
 	}
 }

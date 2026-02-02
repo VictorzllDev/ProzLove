@@ -50,7 +50,21 @@ export class UserUsecase implements IUserUseCase {
 
 			await this.userRepository.like(userId, targetId)
 
-			const match = await this.userRepository.match(userId, targetId)
+			const hasReciprocalLike = await this.userRepository.hasReciprocalLike(userId, targetId)
+			if (!hasReciprocalLike)
+				return {
+					nextProfile,
+					match: null,
+				}
+
+			const existingMatch = await this.userRepository.findExistingMatch(userId, targetId)
+			if (existingMatch)
+				return {
+					nextProfile,
+					match: null,
+				}
+
+			const match = await this.userRepository.createMatch(userId, targetId)
 
 			return {
 				nextProfile,
@@ -59,6 +73,13 @@ export class UserUsecase implements IUserUseCase {
 		}
 
 		if (like === false) {
+			const isMatch = await this.userRepository.findExistingMatch(userId, targetId)
+			if (isMatch)
+				return {
+					nextProfile,
+					match: null,
+				}
+
 			const isLike = await this.userRepository.findLike(userId, targetId)
 			if (isLike) await this.userRepository.deleteLike(userId, targetId)
 
@@ -91,7 +112,23 @@ export class UserUsecase implements IUserUseCase {
 
 			await this.userRepository.like(userId, targetId)
 
-			const match = await this.userRepository.match(userId, targetId)
+			const hasReciprocalLike = await this.userRepository.hasReciprocalLike(userId, targetId)
+			if (!hasReciprocalLike)
+				return {
+					action: 'liked',
+					isMatch: false,
+					match: null,
+				}
+
+			const isMatch = await this.userRepository.findExistingMatch(userId, targetId)
+			if (isMatch)
+				return {
+					action: 'liked',
+					isMatch: !!isMatch,
+					match: isMatch,
+				}
+
+			const match = await this.userRepository.createMatch(userId, targetId)
 
 			return {
 				action: 'liked',
@@ -101,6 +138,9 @@ export class UserUsecase implements IUserUseCase {
 		}
 
 		if (action === 'dislike') {
+			const isMatch = await this.userRepository.findExistingMatch(userId, targetId)
+			if (isMatch) throw new HttpError('Match already exists between users', 409)
+
 			const isLike = await this.userRepository.findLike(userId, targetId)
 			if (isLike) await this.userRepository.deleteLike(userId, targetId)
 
