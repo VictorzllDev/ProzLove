@@ -13,6 +13,8 @@ export const userSchema = z.object({
 	name: z.string(),
 	birthday: z.date(),
 	gender: z.enum(['MALE', 'FEMALE']),
+	location: z.string(),
+	verified: z.boolean(),
 	bio: z.string(),
 	photos: z.array(photoSchema),
 	createdAt: z.date(),
@@ -24,6 +26,7 @@ export const saveUserSchema = userSchema.pick({
 	name: true,
 	birthday: true,
 	gender: true,
+	location: true,
 	bio: true,
 })
 

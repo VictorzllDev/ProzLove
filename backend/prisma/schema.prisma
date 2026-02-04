@@ -19,6 +19,8 @@ model User {
   birthday         DateTime
   bio              String
   gender           Gender
+  location         String
+  verified         Boolean   @default(false)
   photos           Photo[]
   givenLikes       Like[]    @relation("UserGivenLikes")
   receivedLikes    Like[]    @relation("UserReceivedLikes")

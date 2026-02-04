@@ -12,6 +12,25 @@ export const createOnboardingInputSchema = z.object({
 	}, 'You must be at least 17 years old'),
 	gender: z.enum(['MALE', 'FEMALE']),
 	bio: z.string().trim().min(1, 'Bio must have at least 1 characters').max(255, 'Very long bio'),
+	location: z.enum([
+		'Belo Horizonte - MG',
+		'Uberlandia - MG',
+		'Montes Claros - MG',
+		'Juiz de Fora - MG',
+		'Divinopolis - MG',
+		'Contagem - MG',
+		'Itaquera - SP',
+		'São Miguel Paulista - SP',
+		'Santo Amaro - SP',
+		'Sacomã - SP',
+		'Mauá - SP',
+		'Jabaquara - SP',
+		'Guarulhos - SP',
+		'Guaianases - SP',
+		'Grajaú - SP',
+		'Diadema - SP',
+		'Carapicuíba - SP',
+	]),
 })
 
 export const createOnboardingInputWithIdSchema = createOnboardingInputSchema.extend({

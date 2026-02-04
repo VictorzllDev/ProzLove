@@ -2,11 +2,16 @@ import { prisma } from '../lib/prisma'
 import type { IDislike, ILike, IMatch, ISaveUser, IStats, IUser, IUserRepository } from '../types/entities/user.entity'
 
 export class UserRepository implements IUserRepository {
-	async save({ id, name, birthday, gender, bio }: ISaveUser): Promise<void> {
-		await prisma.user.upsert({
-			where: { id },
-			update: { name, birthday, gender, bio },
-			create: { id, name, birthday, gender, bio },
+	async save({ id, name, birthday, gender, location, bio }: ISaveUser): Promise<void> {
+		await prisma.user.create({
+			data: {
+				id,
+				name,
+				birthday,
+				gender,
+				location,
+				bio,
+			},
 		})
 	}
 
@@ -113,17 +118,8 @@ export class UserRepository implements IUserRepository {
 	}
 
 	async like(userId: string, targetId: string): Promise<ILike> {
-		return await prisma.like.upsert({
-			where: {
-				userId_targetId: {
-					userId,
-					targetId,
-				},
-			},
-			update: {
-				createdAt: new Date(),
-			},
-			create: {
+		return await prisma.like.create({
+			data: {
 				userId,
 				targetId,
 			},
@@ -131,17 +127,8 @@ export class UserRepository implements IUserRepository {
 	}
 
 	async dislike(userId: string, targetId: string): Promise<IDislike> {
-		return await prisma.dislike.upsert({
-			where: {
-				userId_targetId: {
-					userId,
-					targetId,
-				},
-			},
-			update: {
-				createdAt: new Date(),
-			},
-			create: {
+		return await prisma.dislike.create({
+			data: {
 				userId,
 				targetId,
 			},
