@@ -53,8 +53,8 @@ function Onboarding() {
 
 							{stage === 2 ? (
 								<Button
-									type="submit"
-									variant="default"
+									type='submit'
+									variant='default'
 									isLoading={createOnboarding.isPending}
 									className="h-12 w-full bg-linear-to-r from-rose-500 via-pink-500 to-orange-400 font-bold text-white hover:from-rose-600 hover:via-pink-600 hover:to-orange-500"
 								>
@@ -62,9 +62,9 @@ function Onboarding() {
 								</Button>
 							) : (
 								<Button
-									type="submit"
+									type='submit'
 									onClick={handleNextStage}
-									variant="default"
+									variant='default'
 									className="h-12 w-full bg-linear-to-r from-rose-500 via-pink-500 to-orange-400 font-bold text-white hover:from-rose-600 hover:via-pink-600 hover:to-orange-500"
 								>
 									Continuar

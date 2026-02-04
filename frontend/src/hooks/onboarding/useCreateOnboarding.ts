@@ -16,10 +16,10 @@ export function useCreateOnboarding() {
 				description: error.message,
 			})
 		},
-		onSuccess: () => {
-			toast.success('Onboarding realizado com sucesso!')
-			refreshProfile()
+		onSuccess: async () => {
+			await refreshProfile()
 			navigate({ to: '/' })
+			toast.success('Onboarding realizado com sucesso!')
 		},
 	})
 }

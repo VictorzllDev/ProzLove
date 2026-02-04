@@ -7,21 +7,36 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import type { OnboardingFormInputs } from '@/hooks/onboarding/useOnboarding'
 import { AvatarPicker } from '../-components/avatar-picker'
 
 interface IStageOneForm {
-	form: UseFormReturn<{
-		name: string
-		bio: string
-		birthday: Date
-		gender: 'MALE' | 'FEMALE'
-	}>
+	form: UseFormReturn<OnboardingFormInputs>
 	defaultAvatar: string
 	onAvatarChange: (avatarUrl: string) => void
 }
 
 export function StageOneForm({ form, defaultAvatar, onAvatarChange }: IStageOneForm) {
 	const [open, setOpen] = useState<boolean>(false)
+	const locations = [
+		'Belo Horizonte - MG',
+		'Uberlandia - MG',
+		'Montes Claros - MG',
+		'Juiz de Fora - MG',
+		'Divinopolis - MG',
+		'Contagem - MG',
+		'Itaquera - SP',
+		'São Miguel Paulista - SP',
+		'Santo Amaro - SP',
+		'Sacomã - SP',
+		'Mauá - SP',
+		'Jabaquara - SP',
+		'Guarulhos - SP',
+		'Guaianases - SP',
+		'Grajaú - SP',
+		'Diadema - SP',
+		'Carapicuíba - SP',
+	]
 
 	const {
 		register,
@@ -155,6 +170,30 @@ export function StageOneForm({ form, defaultAvatar, onAvatarChange }: IStageOneF
 					)}
 				/>
 				{errors.gender && <p className="text-red-500 text-sm">{errors.gender.message}</p>}
+			</div>
+			<div className="space-y-2">
+				<Label htmlFor="city" className="font-semibold text-gray-700 text-sm">
+					De qual Proz você é?
+				</Label>
+				<Controller
+					control={control}
+					name="location"
+					render={({ field }) => (
+						<Select value={field.value || ''} onValueChange={field.onChange}>
+							<SelectTrigger id="gender">
+								<SelectValue placeholder="Selecione sua cidade" />
+							</SelectTrigger>
+							<SelectContent className="rounded-xl">
+								{locations.map((city) => (
+									<SelectItem key={city} value={city} className="py-3">
+										{city}
+									</SelectItem>
+								))}
+							</SelectContent>
+						</Select>
+					)}
+				/>
+				{errors.location && <p className="text-red-500 text-sm">{errors.location.message}</p>}
 			</div>
 		</>
 	)

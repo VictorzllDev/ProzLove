@@ -1,14 +1,10 @@
 import type { UseFormReturn } from 'react-hook-form'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
+import type { OnboardingFormInputs } from '@/hooks/onboarding/useOnboarding'
 
 interface IStageTwoForm {
-	form: UseFormReturn<{
-		name: string
-		bio: string
-		birthday: Date
-		gender: 'MALE' | 'FEMALE'
-	}>
+	form: UseFormReturn<OnboardingFormInputs>
 }
 export function StageTwoForm({ form }: IStageTwoForm) {
 	const {

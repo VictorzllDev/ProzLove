@@ -1,12 +1,10 @@
-import { useAuth } from '@/contexts/AuthContext'
-import { useGenerateUploadUrl } from '../photo/useGenerateUploadUrl'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useCreateOnboarding } from './useCreateOnboarding'
 import { base64ToFile } from '@/utils/base64ToFile.util'
-import { toast } from 'sonner'
+import { useGenerateUploadUrl } from '../photo/useGenerateUploadUrl'
+import { useCreateOnboarding } from './useCreateOnboarding'
 
 const onboardingFormSchema = z.object({
 	name: z
@@ -35,12 +33,35 @@ const onboardingFormSchema = z.object({
 	gender: z.enum(['MALE', 'FEMALE'], {
 		message: 'Selecione um Genero.',
 	}),
+	location: z.enum(
+		[
+			'Belo Horizonte - MG',
+			'Uberlandia - MG',
+			'Montes Claros - MG',
+			'Juiz de Fora - MG',
+			'Divinopolis - MG',
+			'Contagem - MG',
+			'Itaquera - SP',
+			'São Miguel Paulista - SP',
+			'Santo Amaro - SP',
+			'Sacomã - SP',
+			'Mauá - SP',
+			'Jabaquara - SP',
+			'Guarulhos - SP',
+			'Guaianases - SP',
+			'Grajaú - SP',
+			'Diadema - SP',
+			'Carapicuíba - SP',
+		],
+		{
+			message: 'Selecione a cidade que voce faz curso.',
+		},
+	),
 })
 
 export type OnboardingFormInputs = z.infer<typeof onboardingFormSchema>
 
 export function useOnboarding() {
-	const { refreshProfile } = useAuth()
 	const createOnboarding = useCreateOnboarding()
 	const generateUploadUrl = useGenerateUploadUrl()
 
@@ -54,6 +75,7 @@ export function useOnboarding() {
 			bio: undefined,
 			birthday: undefined,
 			gender: undefined,
+			location: undefined,
 		},
 	})
 
@@ -75,10 +97,6 @@ export function useOnboarding() {
 			},
 			body: file,
 		})
-
-		await refreshProfile()
-
-		toast.success('Parabens! Você acabou de se tornar um Proz Love.')
 	}
 
 	async function handleNextStage() {

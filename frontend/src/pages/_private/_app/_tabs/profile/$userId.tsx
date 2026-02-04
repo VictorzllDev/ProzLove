@@ -13,11 +13,6 @@ export const Route = createFileRoute('/_private/_app/_tabs/profile/$userId')({
 	component: Profile,
 })
 
-const profileData = {
-	location: 'São Paulo, Brasil',
-	verified: true,
-}
-
 // const _posts = [
 // 	{ id: '1', image: '/images/post1.jpg', likes: 1234, comments: 89 },
 // 	{ id: '2', image: '/images/post2.jpg', likes: 2567, comments: 134 },
@@ -54,8 +49,8 @@ export default function Profile() {
 					name={userState.name}
 					age={calculateAge(String(userState.birthday))}
 					gender={userState.gender}
-					location={profileData.location}
-					verified={profileData.verified}
+					location={userState.location}
+					verified={userState.verified}
 					profileImage={userState?.photos.find((photo) => photo.isPrimary)?.url || ''}
 				/>
 

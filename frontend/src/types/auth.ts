@@ -11,6 +11,8 @@ export interface IProfile {
 	name: string
 	birthday: Date
 	gender: 'MALE' | 'FEMALE'
+	location: string
+	verified: boolean
 	bio: string
 	photos: IPhoto[]
 	createdAt: string
