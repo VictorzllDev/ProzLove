@@ -7,7 +7,7 @@ import { useFeedProfile } from '@/hooks/discovery/useFeedProfile'
 import { Header } from './-components/header'
 import { ProfileCard } from './-components/profile-card'
 
-export const Route = createFileRoute('/_private/_app/_feed/')({
+export const Route = createFileRoute('/_private/_app/_tabs/_feed/')({
 	component: Feed,
 })
 
@@ -28,7 +28,7 @@ function Feed() {
 
 	if (isError) {
 		return (
-			<div className="container mx-auto max-w-md p-4">
+			<div className="container mx-auto max-w-lg p-4">
 				<div className="rounded-lg bg-red-50 p-4 text-red-800">
 					<h4 className="font-medium">{error.name}</h4>
 					<p>{error.message}</p>
@@ -55,7 +55,7 @@ function Feed() {
 	}
 
 	return (
-		<div className="container mx-auto max-w-md p-4">
+		<div className="container mx-auto max-w-lg p-4">
 			<Header totalViewed={feedState.totalViewed} />
 
 			<ProfileCard

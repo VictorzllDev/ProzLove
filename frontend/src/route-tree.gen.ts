@@ -15,11 +15,13 @@ import { Route as AuthSignUpRouteImport } from './pages/_auth/sign-up'
 import { Route as AuthSignInRouteImport } from './pages/_auth/sign-in'
 import { Route as PrivateAppLayoutRouteImport } from './pages/_private/_app/_layout'
 import { Route as PrivateOnboardingIndexRouteImport } from './pages/_private/onboarding/index'
-import { Route as PrivateAppProfileIndexRouteImport } from './pages/_private/_app/profile/index'
-import { Route as PrivateAppMatchesIndexRouteImport } from './pages/_private/_app/matches/index'
-import { Route as PrivateAppChatsIndexRouteImport } from './pages/_private/_app/chats/index'
-import { Route as PrivateAppFeedIndexRouteImport } from './pages/_private/_app/_feed/index'
-import { Route as PrivateAppProfileUserIdRouteImport } from './pages/_private/_app/profile/$userId'
+import { Route as PrivateAppTabsLayoutRouteImport } from './pages/_private/_app/_tabs/_layout'
+import { Route as PrivateAppTabsProfileIndexRouteImport } from './pages/_private/_app/_tabs/profile/index'
+import { Route as PrivateAppTabsMatchesIndexRouteImport } from './pages/_private/_app/_tabs/matches/index'
+import { Route as PrivateAppTabsChatsIndexRouteImport } from './pages/_private/_app/_tabs/chats/index'
+import { Route as PrivateAppTabsFeedIndexRouteImport } from './pages/_private/_app/_tabs/_feed/index'
+import { Route as PrivateAppTabsProfileUserIdRouteImport } from './pages/_private/_app/_tabs/profile/$userId'
+import { Route as PrivateAppScreensChatsIdRouteImport } from './pages/_private/_app/_screens/chats/$id'
 
 const PrivateLayoutRoute = PrivateLayoutRouteImport.update({
   id: '/_private',
@@ -48,51 +50,67 @@ const PrivateOnboardingIndexRoute = PrivateOnboardingIndexRouteImport.update({
   path: '/onboarding/',
   getParentRoute: () => PrivateLayoutRoute,
 } as any)
-const PrivateAppProfileIndexRoute = PrivateAppProfileIndexRouteImport.update({
-  id: '/profile/',
-  path: '/profile/',
+const PrivateAppTabsLayoutRoute = PrivateAppTabsLayoutRouteImport.update({
+  id: '/_tabs',
   getParentRoute: () => PrivateAppLayoutRoute,
 } as any)
-const PrivateAppMatchesIndexRoute = PrivateAppMatchesIndexRouteImport.update({
-  id: '/matches/',
-  path: '/matches/',
-  getParentRoute: () => PrivateAppLayoutRoute,
-} as any)
-const PrivateAppChatsIndexRoute = PrivateAppChatsIndexRouteImport.update({
-  id: '/chats/',
-  path: '/chats/',
-  getParentRoute: () => PrivateAppLayoutRoute,
-} as any)
-const PrivateAppFeedIndexRoute = PrivateAppFeedIndexRouteImport.update({
+const PrivateAppTabsProfileIndexRoute =
+  PrivateAppTabsProfileIndexRouteImport.update({
+    id: '/profile/',
+    path: '/profile/',
+    getParentRoute: () => PrivateAppTabsLayoutRoute,
+  } as any)
+const PrivateAppTabsMatchesIndexRoute =
+  PrivateAppTabsMatchesIndexRouteImport.update({
+    id: '/matches/',
+    path: '/matches/',
+    getParentRoute: () => PrivateAppTabsLayoutRoute,
+  } as any)
+const PrivateAppTabsChatsIndexRoute =
+  PrivateAppTabsChatsIndexRouteImport.update({
+    id: '/chats/',
+    path: '/chats/',
+    getParentRoute: () => PrivateAppTabsLayoutRoute,
+  } as any)
+const PrivateAppTabsFeedIndexRoute = PrivateAppTabsFeedIndexRouteImport.update({
   id: '/_feed/',
   path: '/',
-  getParentRoute: () => PrivateAppLayoutRoute,
+  getParentRoute: () => PrivateAppTabsLayoutRoute,
 } as any)
-const PrivateAppProfileUserIdRoute = PrivateAppProfileUserIdRouteImport.update({
-  id: '/profile/$userId',
-  path: '/profile/$userId',
-  getParentRoute: () => PrivateAppLayoutRoute,
-} as any)
+const PrivateAppTabsProfileUserIdRoute =
+  PrivateAppTabsProfileUserIdRouteImport.update({
+    id: '/profile/$userId',
+    path: '/profile/$userId',
+    getParentRoute: () => PrivateAppTabsLayoutRoute,
+  } as any)
+const PrivateAppScreensChatsIdRoute =
+  PrivateAppScreensChatsIdRouteImport.update({
+    id: '/_screens/chats/$id',
+    path: '/chats/$id',
+    getParentRoute: () => PrivateAppLayoutRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/sign-in': typeof AuthSignInRoute
   '/sign-up': typeof AuthSignUpRoute
   '/onboarding': typeof PrivateOnboardingIndexRoute
-  '/profile/$userId': typeof PrivateAppProfileUserIdRoute
-  '/': typeof PrivateAppFeedIndexRoute
-  '/chats': typeof PrivateAppChatsIndexRoute
-  '/matches': typeof PrivateAppMatchesIndexRoute
-  '/profile': typeof PrivateAppProfileIndexRoute
+  '/chats/$id': typeof PrivateAppScreensChatsIdRoute
+  '/profile/$userId': typeof PrivateAppTabsProfileUserIdRoute
+  '/': typeof PrivateAppTabsFeedIndexRoute
+  '/chats': typeof PrivateAppTabsChatsIndexRoute
+  '/matches': typeof PrivateAppTabsMatchesIndexRoute
+  '/profile': typeof PrivateAppTabsProfileIndexRoute
 }
 export interface FileRoutesByTo {
   '/sign-in': typeof AuthSignInRoute
   '/sign-up': typeof AuthSignUpRoute
   '/onboarding': typeof PrivateOnboardingIndexRoute
-  '/profile/$userId': typeof PrivateAppProfileUserIdRoute
-  '/': typeof PrivateAppFeedIndexRoute
-  '/chats': typeof PrivateAppChatsIndexRoute
-  '/matches': typeof PrivateAppMatchesIndexRoute
-  '/profile': typeof PrivateAppProfileIndexRoute
+  '/chats/$id': typeof PrivateAppScreensChatsIdRoute
+  '/profile/$userId': typeof PrivateAppTabsProfileUserIdRoute
+  '/': typeof PrivateAppTabsFeedIndexRoute
+  '/chats': typeof PrivateAppTabsChatsIndexRoute
+  '/matches': typeof PrivateAppTabsMatchesIndexRoute
+  '/profile': typeof PrivateAppTabsProfileIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -101,12 +119,14 @@ export interface FileRoutesById {
   '/_private/_app': typeof PrivateAppLayoutRouteWithChildren
   '/_auth/sign-in': typeof AuthSignInRoute
   '/_auth/sign-up': typeof AuthSignUpRoute
+  '/_private/_app/_tabs': typeof PrivateAppTabsLayoutRouteWithChildren
   '/_private/onboarding/': typeof PrivateOnboardingIndexRoute
-  '/_private/_app/profile/$userId': typeof PrivateAppProfileUserIdRoute
-  '/_private/_app/_feed/': typeof PrivateAppFeedIndexRoute
-  '/_private/_app/chats/': typeof PrivateAppChatsIndexRoute
-  '/_private/_app/matches/': typeof PrivateAppMatchesIndexRoute
-  '/_private/_app/profile/': typeof PrivateAppProfileIndexRoute
+  '/_private/_app/_screens/chats/$id': typeof PrivateAppScreensChatsIdRoute
+  '/_private/_app/_tabs/profile/$userId': typeof PrivateAppTabsProfileUserIdRoute
+  '/_private/_app/_tabs/_feed/': typeof PrivateAppTabsFeedIndexRoute
+  '/_private/_app/_tabs/chats/': typeof PrivateAppTabsChatsIndexRoute
+  '/_private/_app/_tabs/matches/': typeof PrivateAppTabsMatchesIndexRoute
+  '/_private/_app/_tabs/profile/': typeof PrivateAppTabsProfileIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -114,6 +134,7 @@ export interface FileRouteTypes {
     | '/sign-in'
     | '/sign-up'
     | '/onboarding'
+    | '/chats/$id'
     | '/profile/$userId'
     | '/'
     | '/chats'
@@ -124,6 +145,7 @@ export interface FileRouteTypes {
     | '/sign-in'
     | '/sign-up'
     | '/onboarding'
+    | '/chats/$id'
     | '/profile/$userId'
     | '/'
     | '/chats'
@@ -136,12 +158,14 @@ export interface FileRouteTypes {
     | '/_private/_app'
     | '/_auth/sign-in'
     | '/_auth/sign-up'
+    | '/_private/_app/_tabs'
     | '/_private/onboarding/'
-    | '/_private/_app/profile/$userId'
-    | '/_private/_app/_feed/'
-    | '/_private/_app/chats/'
-    | '/_private/_app/matches/'
-    | '/_private/_app/profile/'
+    | '/_private/_app/_screens/chats/$id'
+    | '/_private/_app/_tabs/profile/$userId'
+    | '/_private/_app/_tabs/_feed/'
+    | '/_private/_app/_tabs/chats/'
+    | '/_private/_app/_tabs/matches/'
+    | '/_private/_app/_tabs/profile/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -193,39 +217,53 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivateOnboardingIndexRouteImport
       parentRoute: typeof PrivateLayoutRoute
     }
-    '/_private/_app/profile/': {
-      id: '/_private/_app/profile/'
+    '/_private/_app/_tabs': {
+      id: '/_private/_app/_tabs'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof PrivateAppTabsLayoutRouteImport
+      parentRoute: typeof PrivateAppLayoutRoute
+    }
+    '/_private/_app/_tabs/profile/': {
+      id: '/_private/_app/_tabs/profile/'
       path: '/profile'
       fullPath: '/profile'
-      preLoaderRoute: typeof PrivateAppProfileIndexRouteImport
-      parentRoute: typeof PrivateAppLayoutRoute
+      preLoaderRoute: typeof PrivateAppTabsProfileIndexRouteImport
+      parentRoute: typeof PrivateAppTabsLayoutRoute
     }
-    '/_private/_app/matches/': {
-      id: '/_private/_app/matches/'
+    '/_private/_app/_tabs/matches/': {
+      id: '/_private/_app/_tabs/matches/'
       path: '/matches'
       fullPath: '/matches'
-      preLoaderRoute: typeof PrivateAppMatchesIndexRouteImport
-      parentRoute: typeof PrivateAppLayoutRoute
+      preLoaderRoute: typeof PrivateAppTabsMatchesIndexRouteImport
+      parentRoute: typeof PrivateAppTabsLayoutRoute
     }
-    '/_private/_app/chats/': {
-      id: '/_private/_app/chats/'
+    '/_private/_app/_tabs/chats/': {
+      id: '/_private/_app/_tabs/chats/'
       path: '/chats'
       fullPath: '/chats'
-      preLoaderRoute: typeof PrivateAppChatsIndexRouteImport
-      parentRoute: typeof PrivateAppLayoutRoute
+      preLoaderRoute: typeof PrivateAppTabsChatsIndexRouteImport
+      parentRoute: typeof PrivateAppTabsLayoutRoute
     }
-    '/_private/_app/_feed/': {
-      id: '/_private/_app/_feed/'
+    '/_private/_app/_tabs/_feed/': {
+      id: '/_private/_app/_tabs/_feed/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof PrivateAppFeedIndexRouteImport
-      parentRoute: typeof PrivateAppLayoutRoute
+      preLoaderRoute: typeof PrivateAppTabsFeedIndexRouteImport
+      parentRoute: typeof PrivateAppTabsLayoutRoute
     }
-    '/_private/_app/profile/$userId': {
-      id: '/_private/_app/profile/$userId'
+    '/_private/_app/_tabs/profile/$userId': {
+      id: '/_private/_app/_tabs/profile/$userId'
       path: '/profile/$userId'
       fullPath: '/profile/$userId'
-      preLoaderRoute: typeof PrivateAppProfileUserIdRouteImport
+      preLoaderRoute: typeof PrivateAppTabsProfileUserIdRouteImport
+      parentRoute: typeof PrivateAppTabsLayoutRoute
+    }
+    '/_private/_app/_screens/chats/$id': {
+      id: '/_private/_app/_screens/chats/$id'
+      path: '/chats/$id'
+      fullPath: '/chats/$id'
+      preLoaderRoute: typeof PrivateAppScreensChatsIdRouteImport
       parentRoute: typeof PrivateAppLayoutRoute
     }
   }
@@ -245,20 +283,33 @@ const AuthLayoutRouteWithChildren = AuthLayoutRoute._addFileChildren(
   AuthLayoutRouteChildren,
 )
 
+interface PrivateAppTabsLayoutRouteChildren {
+  PrivateAppTabsProfileUserIdRoute: typeof PrivateAppTabsProfileUserIdRoute
+  PrivateAppTabsFeedIndexRoute: typeof PrivateAppTabsFeedIndexRoute
+  PrivateAppTabsChatsIndexRoute: typeof PrivateAppTabsChatsIndexRoute
+  PrivateAppTabsMatchesIndexRoute: typeof PrivateAppTabsMatchesIndexRoute
+  PrivateAppTabsProfileIndexRoute: typeof PrivateAppTabsProfileIndexRoute
+}
+
+const PrivateAppTabsLayoutRouteChildren: PrivateAppTabsLayoutRouteChildren = {
+  PrivateAppTabsProfileUserIdRoute: PrivateAppTabsProfileUserIdRoute,
+  PrivateAppTabsFeedIndexRoute: PrivateAppTabsFeedIndexRoute,
+  PrivateAppTabsChatsIndexRoute: PrivateAppTabsChatsIndexRoute,
+  PrivateAppTabsMatchesIndexRoute: PrivateAppTabsMatchesIndexRoute,
+  PrivateAppTabsProfileIndexRoute: PrivateAppTabsProfileIndexRoute,
+}
+
+const PrivateAppTabsLayoutRouteWithChildren =
+  PrivateAppTabsLayoutRoute._addFileChildren(PrivateAppTabsLayoutRouteChildren)
+
 interface PrivateAppLayoutRouteChildren {
-  PrivateAppProfileUserIdRoute: typeof PrivateAppProfileUserIdRoute
-  PrivateAppFeedIndexRoute: typeof PrivateAppFeedIndexRoute
-  PrivateAppChatsIndexRoute: typeof PrivateAppChatsIndexRoute
-  PrivateAppMatchesIndexRoute: typeof PrivateAppMatchesIndexRoute
-  PrivateAppProfileIndexRoute: typeof PrivateAppProfileIndexRoute
+  PrivateAppTabsLayoutRoute: typeof PrivateAppTabsLayoutRouteWithChildren
+  PrivateAppScreensChatsIdRoute: typeof PrivateAppScreensChatsIdRoute
 }
 
 const PrivateAppLayoutRouteChildren: PrivateAppLayoutRouteChildren = {
-  PrivateAppProfileUserIdRoute: PrivateAppProfileUserIdRoute,
-  PrivateAppFeedIndexRoute: PrivateAppFeedIndexRoute,
-  PrivateAppChatsIndexRoute: PrivateAppChatsIndexRoute,
-  PrivateAppMatchesIndexRoute: PrivateAppMatchesIndexRoute,
-  PrivateAppProfileIndexRoute: PrivateAppProfileIndexRoute,
+  PrivateAppTabsLayoutRoute: PrivateAppTabsLayoutRouteWithChildren,
+  PrivateAppScreensChatsIdRoute: PrivateAppScreensChatsIdRoute,
 }
 
 const PrivateAppLayoutRouteWithChildren =

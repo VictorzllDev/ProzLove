@@ -28,7 +28,7 @@ export function Header() {
 
 	return (
 		<header className="sticky top-0 z-40 border-border border-b bg-background/80 backdrop-blur-lg">
-			<div className="mx-auto flex h-14 max-w-md items-center justify-between px-4">
+			<div className="mx-auto flex h-14 max-w-lg items-center justify-between px-4">
 				<div className="flex items-center gap-2">
 					<div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-lg">
 						<img src="/logo.svg" alt="Logo" className="h-full w-full" />

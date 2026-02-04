@@ -1,6 +1,4 @@
 import { createFileRoute, Navigate, Outlet } from '@tanstack/react-router'
-import { BottomNav } from '@/components/layout/bottom-nav'
-import { Header } from '@/components/layout/header'
 import { LoadingSplash } from '@/components/shared/splash'
 import { useAuth } from '@/hooks/auth/useAuth'
 
@@ -15,11 +13,5 @@ function AppLayout() {
 
 	if (!firestoreUser.completedOnboarding) return <Navigate to="/onboarding" replace />
 
-	return (
-		<>
-			<Header />
-			<Outlet />
-			<BottomNav />
-		</>
-	)
+	return <Outlet />
 }

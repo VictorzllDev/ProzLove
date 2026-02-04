@@ -9,7 +9,7 @@ import { useToggleLike } from '@/hooks/interaction/useToggleLike'
 import { calculateAge } from '@/utils/calculate-age.util'
 import { getInitials } from '@/utils/getInitials.util'
 
-export const Route = createFileRoute('/_private/_app/matches/')({
+export const Route = createFileRoute('/_private/_app/_tabs/matches/')({
 	component: RouteComponent,
 })
 

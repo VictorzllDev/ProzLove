@@ -9,7 +9,7 @@ import { ProfileBio } from './-components/bio'
 import { ProfileHeader } from './-components/header'
 // import { PhotoGrid } from './-components/photo-grid'
 import { ProfileStats } from './-components/stats'
-export const Route = createFileRoute('/_private/_app/profile/$userId')({
+export const Route = createFileRoute('/_private/_app/_tabs/profile/$userId')({
 	component: Profile,
 })
 
