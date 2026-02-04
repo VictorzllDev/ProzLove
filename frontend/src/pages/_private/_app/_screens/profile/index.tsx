@@ -1,6 +1,6 @@
 import { createFileRoute, Navigate } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/_private/_app/_tabs/profile/')({
+export const Route = createFileRoute('/_private/_app/_screens/profile/')({
 	component: Profile,
 })
 

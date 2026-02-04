@@ -32,14 +32,14 @@ function Chat() {
 			</header>
 
 			<div className="space-y-4">
-				{matches.map((profile) => (
-					<div key={profile.id} className="mb-6 rounded-xl bg-white p-4 shadow-lg transition-all hover:shadow-xl">
-						<Link to="/chats/$id" params={{ id: profile.id }} className="group relative shrink-0">
+				{matches.map((match) => (
+					<div key={match.id} className="mb-6 rounded-xl bg-white p-4 shadow-lg transition-all hover:shadow-xl">
+						<Link to="/chats/$id" params={{ id: match.id }} className="group relative shrink-0">
 							<div className="flex items-start gap-4">
 								<div className="relative">
 									<Avatar className="h-16 w-16">
-										<AvatarImage src={profile.user.photoUrl} />
-										<AvatarFallback className="text-2xl">{getInitials(profile.user.name)}</AvatarFallback>
+										<AvatarImage src={match.user.photoUrl} />
+										<AvatarFallback className="text-2xl">{getInitials(match.user.name)}</AvatarFallback>
 									</Avatar>
 									<div className="absolute inset-0 rounded-full bg-black/0 transition-colors duration-200 group-hover:bg-black/10" />
 								</div>
@@ -48,7 +48,7 @@ function Chat() {
 									<div className="mb-2 flex items-start justify-between">
 										<div className="min-w-0">
 											<h2 className="truncate font-bold text-gray-900 text-lg transition-colors group-hover:text-blue-600">
-												{profile.user.name}
+												{match.user.name}
 											</h2>
 										</div>
 									</div>

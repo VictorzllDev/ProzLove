@@ -1,5 +1,7 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useEffect } from 'react'
+import { BottomNav } from '@/components/layout/bottom-nav'
+import { Header } from '@/components/layout/header'
 import { ErrorPage } from '@/components/shared/error-page'
 import { Spinner } from '@/components/ui/spinner'
 import { useAuth } from '@/contexts/AuthContext'
@@ -9,7 +11,7 @@ import { ProfileBio } from './-components/bio'
 import { ProfileHeader } from './-components/header'
 // import { PhotoGrid } from './-components/photo-grid'
 import { ProfileStats } from './-components/stats'
-export const Route = createFileRoute('/_private/_app/_tabs/profile/$userId')({
+export const Route = createFileRoute('/_private/_app/_screens/profile/$userId')({
 	component: Profile,
 })
 
@@ -43,23 +45,29 @@ export default function Profile() {
 		return <ErrorPage />
 	}
 	return (
-		<main className="min-h-screen bg-background pb-24">
-			<div className="mx-auto max-w-md">
-				<ProfileHeader
-					name={userState.name}
-					age={calculateAge(String(userState.birthday))}
-					gender={userState.gender}
-					location={userState.location}
-					verified={userState.verified}
-					profileImage={userState?.photos.find((photo) => photo.isPrimary)?.url || ''}
-				/>
+		<>
+			<Header showBackButton={userId !== 'me'} />
 
-				<ProfileStats likes={userState.likes} dislikes={userState.dislikes} matches={userState.matches} />
+			<main className="min-h-screen bg-background pb-24">
+				<div className="mx-auto max-w-md">
+					<ProfileHeader
+						name={userState.name}
+						age={calculateAge(String(userState.birthday))}
+						gender={userState.gender}
+						location={userState.location}
+						verified={userState.verified}
+						profileImage={userState?.photos.find((photo) => photo.isPrimary)?.url || ''}
+					/>
 
-				<ProfileBio bio={userState.bio} />
+					<ProfileStats likes={userState.likes} dislikes={userState.dislikes} matches={userState.matches} />
 
-				{/* <PhotoGrid posts={posts} /> */}
-			</div>
-		</main>
+					<ProfileBio bio={userState.bio} />
+
+					{/* <PhotoGrid posts={posts} /> */}
+				</div>
+			</main>
+
+			{userId === 'me' && <BottomNav />}
+		</>
 	)
 }
