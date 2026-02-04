@@ -1,5 +1,6 @@
-import z, { ZodError } from 'zod'
+import { ZodError, z } from 'zod'
 import { validateTokenMiddleware } from '../middlewares/validate-token.middleware'
+import { FirestoreRepository } from '../repositories/firestore.repository'
 import { UserRepository } from '../repositories/user.repository'
 import {
 	createOnboardingInputSchema,
@@ -15,7 +16,7 @@ import type { FastifyTypeInstace } from '../types/shared/fastify.types'
 import { UserUsecase } from '../usecases/user.usecase'
 import { HttpError } from '../utils/http-error.util'
 
-const userUseCase = new UserUsecase(new UserRepository())
+const userUseCase = new UserUsecase(new UserRepository(), new FirestoreRepository())
 
 export function userRoutes(app: FastifyTypeInstace) {
 	app.post(

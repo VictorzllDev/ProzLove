@@ -255,13 +255,32 @@ export class UserRepository implements IUserRepository {
 	}
 
 	async createMatch(userId: string, targetId: string): Promise<IMatch> {
-		const chatId = `${userId}_${targetId}`
-
 		return await prisma.match.create({
 			data: {
 				user1Id: userId,
 				user2Id: targetId,
-				chatId,
+			},
+			include: {
+				user1: {
+					include: {
+						photos: {
+							where: {
+								isPrimary: true,
+							},
+							take: 1,
+						},
+					},
+				},
+				user2: {
+					include: {
+						photos: {
+							where: {
+								isPrimary: true,
+							},
+							take: 1,
+						},
+					},
+				},
 			},
 		})
 	}

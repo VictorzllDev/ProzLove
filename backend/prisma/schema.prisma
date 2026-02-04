@@ -80,7 +80,6 @@ model Match {
   id        String   @id @default(cuid())
   user1Id   String
   user2Id   String
-  chatId    String
   createdAt DateTime @default(now())
 
   user1 User @relation("User1Matches", fields: [user1Id], references: [id])

@@ -1,4 +1,5 @@
 import { db } from '../firebase/config'
+import type { IFirestoreRepository } from '../types/entities/firestore.entity'
 import type {
 	ICreateOnboardingWithIdInput,
 	IGetUserOutput,
@@ -13,7 +14,10 @@ import type {
 import { HttpError } from '../utils/http-error.util'
 
 export class UserUsecase implements IUserUseCase {
-	constructor(private userRepository: IUserRepository) {}
+	constructor(
+		private userRepository: IUserRepository,
+		private firestoreRepository: IFirestoreRepository,
+	) {}
 
 	async onboarding(user: ICreateOnboardingWithIdInput): Promise<void> {
 		await this.userRepository.save(user)
@@ -65,6 +69,7 @@ export class UserUsecase implements IUserUseCase {
 				}
 
 			const match = await this.userRepository.createMatch(userId, targetId)
+			await this.firestoreRepository.createMatch(match)
 
 			return {
 				nextProfile,
@@ -129,6 +134,7 @@ export class UserUsecase implements IUserUseCase {
 				}
 
 			const match = await this.userRepository.createMatch(userId, targetId)
+			await this.firestoreRepository.createMatch(match)
 
 			return {
 				action: 'liked',

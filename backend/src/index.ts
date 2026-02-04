@@ -43,7 +43,7 @@ app.register(photoRoutes, {
 	prefix: '/photo',
 })
 
-app.listen({ port: env.PORT }, (err, address) => {
+app.listen({ host: env.HOST, port: env.PORT }, (err, address) => {
 	if (err) {
 		app.log.error(err)
 		process.exit(1)
