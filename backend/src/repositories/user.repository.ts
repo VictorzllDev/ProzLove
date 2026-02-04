@@ -1,5 +1,14 @@
 import { prisma } from '../lib/prisma'
-import type { IDislike, ILike, IMatch, ISaveUser, IStats, IUser, IUserRepository } from '../types/entities/user.entity'
+import type {
+	IDislike,
+	ILike,
+	IMatch,
+	ISaveUser,
+	IStats,
+	IUpdateUserWithIdInput,
+	IUser,
+	IUserRepository,
+} from '../types/entities/user.entity'
 
 export class UserRepository implements IUserRepository {
 	async save({ id, name, birthday, gender, location, bio }: ISaveUser): Promise<void> {
@@ -9,6 +18,20 @@ export class UserRepository implements IUserRepository {
 				name,
 				birthday,
 				gender,
+				location,
+				bio,
+			},
+		})
+	}
+
+	async update({ id, name, birthday, location, bio }: IUpdateUserWithIdInput): Promise<void> {
+		await prisma.user.update({
+			where: {
+				id,
+			},
+			data: {
+				name,
+				birthday,
 				location,
 				bio,
 			},

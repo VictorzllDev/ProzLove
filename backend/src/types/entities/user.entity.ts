@@ -6,7 +6,7 @@ import type {
 	likeToggleWithIdInputSchema,
 	swipeAndGetNextProfileOutputSchema,
 	swipeAndGetNextProfileWithIdInputSchema,
-	updateOnboardingInputSchema,
+	updateUserWithIdInputSchema,
 } from '../dtos/user.dto'
 import type { dislikeSchema } from '../schemas/dislike.schema'
 import type { likeSchema } from '../schemas/like.schema'
@@ -24,7 +24,7 @@ export type IMatch = z.infer<typeof matchSchema>
 
 // USE CASE INPUTS
 export type ICreateOnboardingWithIdInput = z.infer<typeof createOnboardingInputWithIdSchema>
-export type IUpdateOnboardingInput = z.infer<typeof updateOnboardingInputSchema>
+export type IUpdateUserWithIdInput = z.infer<typeof updateUserWithIdInputSchema>
 export type ISwipeAndGetNextProfileWithIdInput = z.infer<typeof swipeAndGetNextProfileWithIdInputSchema>
 export type ILikeToggleWithIdInput = z.infer<typeof likeToggleWithIdInputSchema>
 
@@ -42,6 +42,7 @@ export type IStats = z.infer<typeof statsSchema>
 // USE CASE INTERFACES
 export interface IUserUseCase {
 	onboarding(user: ICreateOnboardingWithIdInput): Promise<void>
+	updateUser(input: IUpdateUserWithIdInput): Promise<void>
 	getUser(id: string): Promise<IGetUserOutput>
 	SwipeAndGetNextProfile(input: ISwipeAndGetNextProfileWithIdInput): Promise<ISwipeAndGetNextProfileOutput>
 	getLikesReceived(userId: string): Promise<IUser[]>
@@ -51,6 +52,7 @@ export interface IUserUseCase {
 // REPOSITORY INTERFACES (Contratos do repositório)
 export interface IUserRepository {
 	save(user: ISaveUser): Promise<void>
+	update(input: IUpdateUserWithIdInput): Promise<void>
 	get(id: string): Promise<IUser | null>
 	getStats(userId: string): Promise<IStats>
 	nextProfile(userId: string, targetId: string | null): Promise<IUser | null>

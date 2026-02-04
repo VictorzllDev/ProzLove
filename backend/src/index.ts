@@ -19,6 +19,7 @@ app.setSerializerCompiler(serializerCompiler)
 
 app.register(fastifyCors, {
 	origin: true,
+	methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
 })
 
 app.register(fastifySwagger, {

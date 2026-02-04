@@ -35,3 +35,10 @@ export const statsSchema = z.object({
 	dislikes: z.number(),
 	matches: z.number(),
 })
+
+export const updateUserSchema = userSchema.pick({
+	name: true,
+	birthday: true,
+	location: true,
+	bio: true,
+})

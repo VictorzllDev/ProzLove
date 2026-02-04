@@ -11,6 +11,7 @@ import {
 	likeToggleOutputSchema,
 	swipeAndGetNextProfileInputSchema,
 	swipeAndGetNextProfileOutputSchema,
+	updateUserInputSchema,
 } from '../types/dtos/user.dto'
 import type { FastifyTypeInstace } from '../types/shared/fastify.types'
 import { UserUsecase } from '../usecases/user.usecase'
@@ -57,6 +58,50 @@ export function userRoutes(app: FastifyTypeInstace) {
 					reply.status(400).send(error)
 				} else if (error instanceof HttpError) {
 					reply.status(error.statusCode as 204 | 400 | 422 | 500).send({ message: error.message })
+				} else {
+					console.log(error)
+					reply.status(500).send(null)
+				}
+			}
+		},
+	)
+
+	app.put(
+		'/profile',
+		{
+			preHandler: validateTokenMiddleware,
+			schema: {
+				tags: ['Profile'],
+				description: 'Update user profile',
+				body: updateUserInputSchema,
+				response: {
+					200: z.null(),
+					400: z
+						.object({
+							statusCode: z.number(),
+							code: z.string(),
+							error: z.string(),
+							message: z.string(),
+						})
+						.or(z.unknown()),
+					404: z
+						.object({
+							message: z.string(),
+						})
+						.or(z.unknown()),
+					500: z.null(),
+				},
+			},
+		},
+		async (req, reply) => {
+			try {
+				await userUseCase.updateUser({ ...req.body, id: req.jwt.uid })
+				reply.status(200).send(null)
+			} catch (error) {
+				if (error instanceof ZodError) {
+					reply.status(400).send(error)
+				} else if (error instanceof HttpError) {
+					reply.status(error.statusCode as 200 | 400 | 404 | 500).send({ message: error.message })
 				} else {
 					console.log(error)
 					reply.status(500).send(null)

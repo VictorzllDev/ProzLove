@@ -33,11 +33,23 @@ export const createOnboardingInputSchema = z.object({
 	]),
 })
 
-export const createOnboardingInputWithIdSchema = createOnboardingInputSchema.extend({
+export const createOnboardingWithIdInputSchema = createOnboardingInputSchema.extend({
 	id: z.string(),
 })
 
-export const updateOnboardingInputSchema = createOnboardingInputSchema.partial()
+// INPUT - UPDATE USER
+export const updateUserInputSchema = createOnboardingInputSchema
+	.pick({
+		name: true,
+		birthday: true,
+		bio: true,
+		location: true,
+	})
+	.partial()
+
+export const updateUserWithIdInputSchema = updateUserInputSchema.extend({
+	id: z.string(),
+})
 
 // INPUT - GET USER
 export const getUserInputSchema = z.object({

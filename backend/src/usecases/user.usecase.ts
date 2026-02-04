@@ -7,6 +7,7 @@ import type {
 	ILikeToggleWithIdInput,
 	ISwipeAndGetNextProfileOutput,
 	ISwipeAndGetNextProfileWithIdInput,
+	IUpdateUserWithIdInput,
 	IUser,
 	IUserRepository,
 	IUserUseCase,
@@ -32,6 +33,13 @@ export class UserUsecase implements IUserUseCase {
 		const userStats = await this.userRepository.getStats(id)
 
 		return { ...user, ...userStats }
+	}
+
+	async updateUser(input: IUpdateUserWithIdInput): Promise<void> {
+		const user = await this.userRepository.get(input.id)
+		if (!user) throw new HttpError('User not found', 404)
+
+		await this.userRepository.update(input)
 	}
 
 	async SwipeAndGetNextProfile({
