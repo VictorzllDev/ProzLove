@@ -11,7 +11,7 @@ interface AvatarPickerProps {
 
 export function AvatarPicker({ onAvatarChange, defaultAvatar }: AvatarPickerProps) {
 	const [isOpen, setIsOpen] = useState(false)
-	const [avatarUrl, setAvatarUrl] = useState<string>('')
+	const [avatarUrl, setAvatarUrl] = useState<string>(defaultAvatar || '')
 	const [uploadedImage, setUploadedImage] = useState<string>(defaultAvatar || '')
 	const [zoom, setZoom] = useState(1)
 	const [position, setPosition] = useState({ x: 0, y: 0 })

@@ -1,4 +1,5 @@
-import { Heart, MapPin, Mars, Sparkles, Venus, Verified } from 'lucide-react'
+import { Link } from '@tanstack/react-router'
+import { Heart, MapPin, Mars, PencilRuler, Sparkles, Venus, Verified } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { getInitials } from '@/utils/getInitials.util'
 
@@ -9,9 +10,18 @@ interface ProfileHeaderProps {
 	location: string
 	verified: boolean
 	profileImage: string
+	isMyProfile: boolean
 }
 
-export function ProfileHeader({ name, age, gender, location, verified, profileImage }: ProfileHeaderProps) {
+export function ProfileHeader({
+	name,
+	age,
+	gender,
+	location,
+	verified,
+	profileImage,
+	isMyProfile,
+}: ProfileHeaderProps) {
 	return (
 		<div className="relative">
 			<div className="absolute inset-0 h-48 rounded-b-[3rem] bg-accent/80" />
@@ -54,6 +64,14 @@ export function ProfileHeader({ name, age, gender, location, verified, profileIm
 					<div className="group absolute -bottom-6 left-1/2 -translate-x-1/2 rounded-full bg-linear-to-r from-primary to-accent p-4 shadow-lg transition-transform">
 						<Heart className="h-7 w-7 animate-pulse fill-primary-foreground text-primary-foreground" />
 					</div>
+					{isMyProfile && (
+						<Link
+							to="/profile/update"
+							className="group absolute top-2 right-2 rounded-full bg-accent p-1.5 text-accent-foreground transition-colors hover:bg-primary hover:text-primary-foreground"
+						>
+							<PencilRuler className="size-5" />
+						</Link>
+					)}
 				</div>
 			</div>
 

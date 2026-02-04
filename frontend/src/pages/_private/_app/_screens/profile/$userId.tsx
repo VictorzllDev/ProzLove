@@ -57,6 +57,7 @@ export default function Profile() {
 						location={userState.location}
 						verified={userState.verified}
 						profileImage={userState?.photos.find((photo) => photo.isPrimary)?.url || ''}
+						isMyProfile={userId === 'me'}
 					/>
 
 					<ProfileStats likes={userState.likes} dislikes={userState.dislikes} matches={userState.matches} />

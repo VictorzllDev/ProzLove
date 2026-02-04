@@ -22,6 +22,7 @@ import { Route as PrivateAppTabsFeedIndexRouteImport } from './pages/_private/_a
 import { Route as PrivateAppScreensProfileIndexRouteImport } from './pages/_private/_app/_screens/profile/index'
 import { Route as PrivateAppScreensProfileUserIdRouteImport } from './pages/_private/_app/_screens/profile/$userId'
 import { Route as PrivateAppScreensChatsIdRouteImport } from './pages/_private/_app/_screens/chats/$id'
+import { Route as PrivateAppScreensProfileUpdateIndexRouteImport } from './pages/_private/_app/_screens/profile/update/index'
 
 const PrivateLayoutRoute = PrivateLayoutRouteImport.update({
   id: '/_private',
@@ -89,6 +90,12 @@ const PrivateAppScreensChatsIdRoute =
     path: '/chats/$id',
     getParentRoute: () => PrivateAppLayoutRoute,
   } as any)
+const PrivateAppScreensProfileUpdateIndexRoute =
+  PrivateAppScreensProfileUpdateIndexRouteImport.update({
+    id: '/_screens/profile/update/',
+    path: '/profile/update/',
+    getParentRoute: () => PrivateAppLayoutRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/sign-in': typeof AuthSignInRoute
@@ -100,6 +107,7 @@ export interface FileRoutesByFullPath {
   '/': typeof PrivateAppTabsFeedIndexRoute
   '/chats': typeof PrivateAppTabsChatsIndexRoute
   '/matches': typeof PrivateAppTabsMatchesIndexRoute
+  '/profile/update': typeof PrivateAppScreensProfileUpdateIndexRoute
 }
 export interface FileRoutesByTo {
   '/sign-in': typeof AuthSignInRoute
@@ -111,6 +119,7 @@ export interface FileRoutesByTo {
   '/': typeof PrivateAppTabsFeedIndexRoute
   '/chats': typeof PrivateAppTabsChatsIndexRoute
   '/matches': typeof PrivateAppTabsMatchesIndexRoute
+  '/profile/update': typeof PrivateAppScreensProfileUpdateIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -127,6 +136,7 @@ export interface FileRoutesById {
   '/_private/_app/_tabs/_feed/': typeof PrivateAppTabsFeedIndexRoute
   '/_private/_app/_tabs/chats/': typeof PrivateAppTabsChatsIndexRoute
   '/_private/_app/_tabs/matches/': typeof PrivateAppTabsMatchesIndexRoute
+  '/_private/_app/_screens/profile/update/': typeof PrivateAppScreensProfileUpdateIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -140,6 +150,7 @@ export interface FileRouteTypes {
     | '/'
     | '/chats'
     | '/matches'
+    | '/profile/update'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/sign-in'
@@ -151,6 +162,7 @@ export interface FileRouteTypes {
     | '/'
     | '/chats'
     | '/matches'
+    | '/profile/update'
   id:
     | '__root__'
     | '/_auth'
@@ -166,6 +178,7 @@ export interface FileRouteTypes {
     | '/_private/_app/_tabs/_feed/'
     | '/_private/_app/_tabs/chats/'
     | '/_private/_app/_tabs/matches/'
+    | '/_private/_app/_screens/profile/update/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -266,6 +279,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivateAppScreensChatsIdRouteImport
       parentRoute: typeof PrivateAppLayoutRoute
     }
+    '/_private/_app/_screens/profile/update/': {
+      id: '/_private/_app/_screens/profile/update/'
+      path: '/profile/update'
+      fullPath: '/profile/update'
+      preLoaderRoute: typeof PrivateAppScreensProfileUpdateIndexRouteImport
+      parentRoute: typeof PrivateAppLayoutRoute
+    }
   }
 }
 
@@ -303,6 +323,7 @@ interface PrivateAppLayoutRouteChildren {
   PrivateAppScreensChatsIdRoute: typeof PrivateAppScreensChatsIdRoute
   PrivateAppScreensProfileUserIdRoute: typeof PrivateAppScreensProfileUserIdRoute
   PrivateAppScreensProfileIndexRoute: typeof PrivateAppScreensProfileIndexRoute
+  PrivateAppScreensProfileUpdateIndexRoute: typeof PrivateAppScreensProfileUpdateIndexRoute
 }
 
 const PrivateAppLayoutRouteChildren: PrivateAppLayoutRouteChildren = {
@@ -310,6 +331,8 @@ const PrivateAppLayoutRouteChildren: PrivateAppLayoutRouteChildren = {
   PrivateAppScreensChatsIdRoute: PrivateAppScreensChatsIdRoute,
   PrivateAppScreensProfileUserIdRoute: PrivateAppScreensProfileUserIdRoute,
   PrivateAppScreensProfileIndexRoute: PrivateAppScreensProfileIndexRoute,
+  PrivateAppScreensProfileUpdateIndexRoute:
+    PrivateAppScreensProfileUpdateIndexRoute,
 }
 
 const PrivateAppLayoutRouteWithChildren =
