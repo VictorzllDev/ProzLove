@@ -67,6 +67,7 @@ export function ProfileHeader({
 					{isMyProfile && (
 						<Link
 							to="/profile/update"
+							state={{ __tempKey: '/profile/me' }}
 							className="group absolute top-2 right-2 rounded-full bg-accent p-1.5 text-accent-foreground transition-colors hover:bg-primary hover:text-primary-foreground"
 						>
 							<PencilRuler className="size-5" />

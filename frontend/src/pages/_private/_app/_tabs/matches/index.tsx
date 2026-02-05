@@ -8,6 +8,7 @@ import { useLikesReceived } from '@/hooks/interaction/useLikesReceived'
 import { useToggleLike } from '@/hooks/interaction/useToggleLike'
 import { calculateAge } from '@/utils/calculate-age.util'
 import { getInitials } from '@/utils/getInitials.util'
+import { useState } from 'react'
 
 export const Route = createFileRoute('/_private/_app/_tabs/matches/')({
 	component: RouteComponent,
@@ -17,8 +18,10 @@ function RouteComponent() {
 	const navigate = useNavigate()
 	const { data, isPending } = useLikesReceived()
 	const toggleLike = useToggleLike()
+	const [likeAction, setLikeAction] = useState<null | 'like' | 'dislike'>(null)
 
 	const handleLike = (targetId: string) => {
+		setLikeAction('like')
 		toggleLike.mutate({
 			targetId,
 			action: 'like',
@@ -26,6 +29,7 @@ function RouteComponent() {
 	}
 
 	const handleDislike = (targetId: string) => {
+		setLikeAction('dislike')
 		toggleLike.mutate({
 			targetId,
 			action: 'dislike',
@@ -93,6 +97,7 @@ function RouteComponent() {
 							<Button
 								variant="outline"
 								onClick={() => handleDislike(profile.id)}
+								isLoading={toggleLike.isPending && likeAction === 'dislike'}
 								className="flex h-12 flex-1 items-center justify-center gap-2 transition-all hover:border-red-200 hover:bg-red-50 hover:text-red-600"
 							>
 								<XIcon className="h-5 w-5" />
@@ -101,6 +106,7 @@ function RouteComponent() {
 
 							<Button
 								onClick={() => handleLike(profile.id)}
+								isLoading={toggleLike.isPending && likeAction === 'like'}
 								className="flex h-12 flex-1 items-center justify-center gap-2 bg-linear-to-r from-pink-500 to-rose-500 text-white shadow-md transition-all hover:from-pink-600 hover:to-rose-600 hover:shadow-lg"
 							>
 								<HeartIcon className="h-5 w-5" />
