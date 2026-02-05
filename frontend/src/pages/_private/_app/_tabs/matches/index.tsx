@@ -1,5 +1,6 @@
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
-import { HeartIcon, XIcon } from 'lucide-react'
+import { HeartIcon, Verified, XIcon } from 'lucide-react'
+import { useState } from 'react'
 import EmptyList from '@/components/shared/empty-list'
 import { LoadingSplash } from '@/components/shared/splash'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -8,7 +9,6 @@ import { useLikesReceived } from '@/hooks/interaction/useLikesReceived'
 import { useToggleLike } from '@/hooks/interaction/useToggleLike'
 import { calculateAge } from '@/utils/calculate-age.util'
 import { getInitials } from '@/utils/getInitials.util'
-import { useState } from 'react'
 
 export const Route = createFileRoute('/_private/_app/_tabs/matches/')({
 	component: RouteComponent,
@@ -76,10 +76,19 @@ function RouteComponent() {
 							<div className="min-w-0 flex-1">
 								<div className="mb-2 flex items-start justify-between">
 									<div className="min-w-0">
-										<Link to="/profile/$userId" params={{ userId: profile.id }} className="group">
+										<Link
+											to="/profile/$userId"
+											params={{ userId: profile.id }}
+											className="group flex items-center gap-1"
+										>
 											<h2 className="truncate font-bold text-gray-900 text-lg transition-colors group-hover:text-blue-600">
 												{profile.name}
 											</h2>
+											{profile.verified && (
+												<div className="shrink-0 rounded-full bg-primary p-1">
+													<Verified className="h-4 w-4 text-primary-foreground" />
+												</div>
+											)}
 										</Link>
 
 										<div className="flex items-center gap-3 text-gray-600">

@@ -5,6 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { useAuth } from '@/contexts/AuthContext'
 import { useMatches } from '@/hooks/firestore/useMatches'
 import { getInitials } from '@/utils/getInitials.util'
+import { Verified } from 'lucide-react'
 
 export const Route = createFileRoute('/_private/_app/_tabs/chats/')({
 	component: Chat,
@@ -35,7 +36,7 @@ function Chat() {
 				{matches.map((match) => (
 					<div key={match.id} className="mb-6 rounded-xl bg-white p-4 shadow-lg transition-all hover:shadow-xl">
 						<Link to="/chats/$id" params={{ id: match.id }} className="group relative shrink-0">
-							<div className="flex items-start gap-4">
+							<div className="items-ceter flex gap-4">
 								<div className="relative">
 									<Avatar className="h-16 w-16">
 										<AvatarImage src={match.user.photoUrl} />
@@ -44,12 +45,17 @@ function Chat() {
 									<div className="absolute inset-0 rounded-full bg-black/0 transition-colors duration-200 group-hover:bg-black/10" />
 								</div>
 
-								<div className="min-w-0 flex-1">
-									<div className="mb-2 flex items-start justify-between">
-										<div className="min-w-0">
+								<div className="flex min-w-0 items-center">
+									<div className="mb-2 flex items-center justify-between">
+										<div className="flex min-w-0 items-center gap-1">
 											<h2 className="truncate font-bold text-gray-900 text-lg transition-colors group-hover:text-blue-600">
 												{match.user.name}
 											</h2>
+											{profile.verified && (
+												<div className="shrink-0 rounded-full bg-primary p-1">
+													<Verified className="h-4 w-4 text-primary-foreground" />
+												</div>
+											)}
 										</div>
 									</div>
 								</div>

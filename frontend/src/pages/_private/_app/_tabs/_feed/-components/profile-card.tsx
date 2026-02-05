@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router'
-import { EyeIcon, HeartIcon, RefreshCwIcon, XIcon } from 'lucide-react'
+import { EyeIcon, HeartIcon, RefreshCwIcon, Verified, XIcon } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import type { IProfile } from '@/types/auth'
@@ -32,10 +32,15 @@ export function ProfileCard({ profile, onRefresh, onLike, onDislike }: IProfileC
 				<div className="min-w-0 flex-1">
 					<div className="mb-2 flex items-start justify-between">
 						<div className="min-w-0">
-							<Link to="/profile/$userId" params={{ userId: profile.id }} className="group">
+							<Link to="/profile/$userId" params={{ userId: profile.id }} className="group flex items-center gap-1">
 								<h2 className="truncate font-bold text-gray-900 text-xl transition-colors group-hover:text-blue-600">
 									{profile.name}
 								</h2>
+								{profile.verified && (
+									<div className="shrink-0 rounded-full bg-primary p-1">
+										<Verified className="h-4 w-4 text-primary-foreground" />
+									</div>
+								)}
 							</Link>
 
 							<div className="flex items-center gap-3 text-gray-600">
