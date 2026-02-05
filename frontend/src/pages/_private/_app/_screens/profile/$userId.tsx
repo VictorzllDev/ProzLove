@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import { BottomNav } from '@/components/layout/bottom-nav'
 import { Header } from '@/components/layout/header'
 import { ErrorPage } from '@/components/shared/error-page'
-import { Spinner } from '@/components/ui/spinner'
+import { LoadingSplash } from '@/components/shared/splash'
 import { useAuth } from '@/contexts/AuthContext'
 import { useGetProfile } from '@/hooks/profile/useGetProfile'
 import { calculateAge } from '@/utils/calculate-age.util'
@@ -37,7 +37,7 @@ export default function Profile() {
 	}, [userId, authUser?.uid, navigate])
 
 	if (isLoading) {
-		return <Spinner className="mx-auto h-dvh" />
+		return <LoadingSplash />
 	}
 
 	if (isError || !userState) {
