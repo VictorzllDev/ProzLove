@@ -20,4 +20,6 @@ export interface IPhotoUseCase {
 // Repositories
 export interface IPhotoRepository {
 	save(photo: ISavePhoto): Promise<void>
+	findByIsPrimary(userId: string): Promise<IPhoto | null>
+	deleteById(id: string): Promise<void>
 }
