@@ -10,6 +10,7 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { useAuth } from '@/contexts/AuthContext'
+import { env } from '@/env'
 import { tabs } from './bottom-nav'
 
 type TabType = 'feed' | 'matches' | 'chats' | 'profile' | 'default'
@@ -68,7 +69,11 @@ export function Header({ showBackButton }: HeaderProps) {
 									<DropdownMenuItem>GitHub</DropdownMenuItem>
 								</a>
 								<DropdownMenuItem disabled>Support</DropdownMenuItem>
-								<DropdownMenuItem disabled>API</DropdownMenuItem>
+								<DropdownMenuItem>
+									<a href={`${env.VITE_API_URL}/docs`} target="_blank" rel="noreferrer">
+										API
+									</a>
+								</DropdownMenuItem>
 							</DropdownMenuGroup>
 							<DropdownMenuSeparator />
 							<DropdownMenuGroup>
