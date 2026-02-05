@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from '@tanstack/react-router'
-import { ArrowLeft, Bell, Settings } from 'lucide-react'
+import { ArrowLeft, Settings } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
 	DropdownMenu,
@@ -53,10 +53,10 @@ export function Header({ showBackButton }: HeaderProps) {
 				</div>
 
 				<div className="flex items-center gap-1">
-					<Button variant="ghost" size="icon" className="relative">
-						<Bell className="h-5 w-5" />
-						<span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-destructive" />
-					</Button>
+					{/* <Button variant="ghost" size="icon" className="relative"> */}
+					{/* 	<Bell className="h-5 w-5" /> */}
+					{/* 	<span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-destructive" /> */}
+					{/* </Button> */}
 					<DropdownMenu>
 						<DropdownMenuTrigger asChild>
 							<Button variant="ghost" size="icon">
