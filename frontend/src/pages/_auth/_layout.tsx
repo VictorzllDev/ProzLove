@@ -1,5 +1,5 @@
 import { createFileRoute, Link, Navigate, Outlet } from '@tanstack/react-router'
-// import placeholder from '@/assets/brand-reveal.mp4'
+import placeholder from '@/assets/brand-reveal.mp4'
 import { useAuth } from '@/hooks/auth/useAuth'
 
 export const Route = createFileRoute('/_auth')({
@@ -29,14 +29,14 @@ function AuthLayout() {
 				</div>
 			</div>
 			<div className="relative hidden bg-muted lg:block">
-				{/* <video */}
-				{/* 	src={placeholder} */}
-				{/* 	autoPlay */}
-				{/* 	loop */}
-				{/* 	muted */}
-				{/* 	playsInline */}
-				{/* 	className="absolute inset-0 h-full w-full object-cover object-right dark:brightness-[0.2] dark:grayscale" */}
-				{/* /> */}
+				<video
+					src={placeholder}
+					autoPlay
+					loop
+					muted
+					playsInline
+					className="absolute inset-0 h-full w-full object-cover object-center brightness-[0.95]"
+				/>
 			</div>
 		</div>
 	)
