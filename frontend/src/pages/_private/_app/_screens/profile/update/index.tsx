@@ -17,7 +17,7 @@ export const Route = createFileRoute('/_private/_app/_screens/profile/update/')(
 })
 
 function ProfileUpdate() {
-	const { form, updateProfile, avatarUrl, setAvatarUrl, onSubmit } = useProfileForm()
+	const { form, isPending, avatarUrl, setAvatarUrl, onSubmit } = useProfileForm()
 
 	return (
 		<div className="flex min-h-screen flex-col bg-linear-to-br from-rose-500 via-pink-500 to-orange-400">
@@ -46,7 +46,7 @@ function ProfileUpdate() {
 							<Button
 								type="submit"
 								variant="default"
-								isLoading={updateProfile.isPending}
+								isLoading={isPending}
 								className="h-12 w-full bg-linear-to-r from-rose-500 via-pink-500 to-orange-400 font-bold text-white hover:from-rose-600 hover:via-pink-600 hover:to-orange-500"
 							>
 								Finalizar Perfil

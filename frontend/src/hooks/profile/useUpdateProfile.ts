@@ -1,11 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useNavigate } from '@tanstack/react-router'
 import { toast } from 'sonner'
 import { updateProfile } from '@/services/profile/update-profile'
 import type { IProfileWithStats } from '@/types/auth'
 
 export function useUpdateProfile() {
-	const navigate = useNavigate()
 	const queryClient = useQueryClient()
 
 	return useMutation({
@@ -24,9 +22,6 @@ export function useUpdateProfile() {
 					...variables,
 				}
 			})
-
-			navigate({ to: '/profile/$userId', params: { userId: 'me' } })
-			toast.success('Perfil atualizado com sucesso!')
 		},
 	})
 }

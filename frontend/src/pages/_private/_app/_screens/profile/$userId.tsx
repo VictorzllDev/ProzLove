@@ -28,14 +28,13 @@ export default function Profile() {
 	const { userId } = Route.useParams()
 	const { authUser } = useAuth()
 	const navigate = useNavigate()
+	const { data: userState, isLoading, isError } = useGetProfile(userId)
 
 	useEffect(() => {
 		if (userId && userId !== 'me' && userId === authUser?.uid) {
 			navigate({ to: '/profile/$userId', params: { userId: 'me' } })
 		}
 	}, [userId, authUser?.uid, navigate])
-
-	const { data: userState, isLoading, isError } = useGetProfile(userId)
 
 	if (isLoading) {
 		return <Spinner className="mx-auto h-dvh" />

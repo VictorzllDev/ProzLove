@@ -1,7 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useQueryClient } from '@tanstack/react-query'
+import { useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import z from 'zod'
 import { useAuth } from '@/contexts/AuthContext'
 import type { IProfileWithStats } from '@/types/auth'
@@ -62,6 +64,7 @@ const profileFormSchema = z.object({
 export type ProfileFormInputs = z.infer<typeof profileFormSchema>
 
 export function useProfileForm() {
+	const navigate = useNavigate()
 	const queryClient = useQueryClient()
 	const profileCache = queryClient.getQueryData(['user-profile', 'me']) as IProfileWithStats
 	const { profile: profileAuth } = useAuth()
@@ -71,6 +74,7 @@ export function useProfileForm() {
 	const generateUploadUrl = useGenerateUploadUrl()
 
 	const [avatarUrl, setAvatarUrl] = useState<string>(profile?.photos.find((p) => p.isPrimary)?.url || '')
+	const [isPending, setIsPending] = useState<boolean>(false)
 
 	const form = useForm<ProfileFormInputs>({
 		resolver: zodResolver(profileFormSchema),
@@ -83,6 +87,7 @@ export function useProfileForm() {
 	})
 
 	const onSubmit = async (input: ProfileFormInputs) => {
+		setIsPending(true)
 		await updateProfile.mutateAsync(input)
 
 		const file = base64ToFile(avatarUrl, 'avatar')
@@ -100,7 +105,11 @@ export function useProfileForm() {
 			},
 			body: file,
 		})
+
+		setIsPending(false)
+		navigate({ to: '/profile/$userId', params: { userId: 'me' } })
+		toast.success('Perfil atualizado com sucesso!')
 	}
 
-	return { form, updateProfile, avatarUrl, setAvatarUrl, onSubmit }
+	return { isPending, form, avatarUrl, setAvatarUrl, onSubmit }
 }

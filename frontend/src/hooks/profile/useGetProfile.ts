@@ -24,7 +24,6 @@ export function useGetProfile(userId: string) {
 			return await getProfile({ id: userId })
 		},
 		enabled: !!userId || !!profile?.id,
-		staleTime: isOwnProfile ? 1 * 60 * 1000 : 5 * 60 * 1000, // 1 minute for own profile, 5 minutes for others
 		retry: (failureCount, error) => {
 			if (isOwnProfile || error.message.includes('404')) {
 				return false
