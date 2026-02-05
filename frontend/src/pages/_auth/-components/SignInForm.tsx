@@ -16,7 +16,7 @@ const signInFormSchema = z.object({
 export type SignInFormInputs = z.infer<typeof signInFormSchema>
 
 export function SignInForm({ className, ...props }: React.ComponentProps<'form'>) {
-	const { signIn } = useAuth()
+	const { signIn, googleSignIn } = useAuth()
 
 	const {
 		register,
@@ -35,7 +35,7 @@ export function SignInForm({ className, ...props }: React.ComponentProps<'form'>
 	}
 
 	const handleGoogleSignIn = () => {
-		// googleSignIn.mutate()
+		googleSignIn.mutate()
 	}
 
 	return (

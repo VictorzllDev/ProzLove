@@ -4,6 +4,7 @@ import { doc, onSnapshot } from 'firebase/firestore'
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { apiPrivate } from '@/axios/apiPrivate'
 import { auth, db } from '@/firebase/config'
+import { useGoogleSignIn } from '@/hooks/auth/useGoogleSignIn'
 import { useLogout } from '@/hooks/auth/useLogout'
 import { useSignIn } from '@/hooks/auth/useSignIn'
 import { useSignUp } from '@/hooks/auth/useSignUp'
@@ -22,6 +23,7 @@ interface AuthContextType {
 	isProfileLoading: boolean
 	signIn: UseMutationResult<IAuthUser, Error, ISignInWithEmail, unknown>
 	signUp: UseMutationResult<IAuthUser, Error, ISignUpWithEmail, unknown>
+	googleSignIn: UseMutationResult<IAuthUser, Error, void, unknown>
 	logout: UseMutationResult<void, Error, void, unknown>
 	refreshProfile: () => Promise<void>
 	profileError: Error | null
@@ -187,6 +189,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 		fetchUserProfile,
 	})
 
+	const googleSignIn = useGoogleSignIn({
+		setAuthUser,
+		setProfile,
+		fetchUserProfile,
+	})
+
 	const logout = useLogout({
 		setAuthUser,
 		setProfile,
@@ -205,6 +213,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 			isProfileLoading: profileLoading,
 			signIn,
 			signUp,
+			googleSignIn,
 			logout,
 			refreshProfile,
 			profileError,
@@ -219,6 +228,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 			profileLoading,
 			signIn,
 			signUp,
+			googleSignIn,
 			logout,
 			refreshProfile,
 			profileError,
