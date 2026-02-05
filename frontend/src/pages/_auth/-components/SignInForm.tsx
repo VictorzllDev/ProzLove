@@ -53,9 +53,9 @@ export function SignInForm({ className, ...props }: React.ComponentProps<'form'>
 				<div className="grid gap-3">
 					<div className="flex items-center">
 						<Label htmlFor="password">Senha</Label>
-						<Link to="." className="ml-auto text-sm underline-offset-4 hover:underline">
-							Esqueceu sua senha?
-						</Link>
+						{/* <Link to="." className="ml-auto text-sm underline-offset-4 hover:underline"> */}
+						{/* 	Esqueceu sua senha? */}
+						{/* </Link> */}
 					</div>
 					<Input id="password" type="password" {...register('password')} />
 					{errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
